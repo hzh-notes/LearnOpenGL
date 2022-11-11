@@ -6,6 +6,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Shader.h"
+#include "stb_image.h"
 
 using namespace std;
 
@@ -24,6 +25,35 @@ void processInput(GLFWwindow* window)
 	{
 		DrawMode = GL_LINE;
 	}
+}
+
+int LoadImage(std::string ImagPath, unsigned int& OutTexture)
+{
+	unsigned int texture;
+	glGenTextures(1, &texture);
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	int Width, Height, NumChannels;
+	unsigned char* Data = stbi_load(ImagPath.c_str(), &Width, &Height, &NumChannels, 0);
+	if (Data)
+	{
+		GLint TextureFormat = GL_RGB;
+		if (NumChannels == 4)
+		{
+			TextureFormat = GL_RGBA;
+		}
+		glTexImage2D(GL_TEXTURE_2D, 0, TextureFormat, Width, Height, 0, TextureFormat, GL_UNSIGNED_BYTE, Data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+		return -1;
+	}
+
+	stbi_image_free(Data);
+	return 1;
 }
 
 int main()
@@ -57,10 +87,11 @@ int main()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	float vertices[] = {
-	0.5f, 0.5f, 0.0f,   // 右上角
-	0.5f, -0.5f, 0.0f,  // 右下角
-	-0.5f, -0.5f, 0.0f, // 左下角
-	-0.5f, 0.5f, 0.0f   // 左上角
+		//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, /*0.0,*/1.0f,   // 右上
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, /*1.0,*/0.0f,   // 右下
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, /*1.0,*/0.0f,   // 左下
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, /*0.0*/1.0f    // 左上
 	};
 
 	unsigned int indices[] = {
@@ -84,8 +115,12 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	// 3. 设置顶点属性指针
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	unsigned int EBO;
 	glGenBuffers(1, &EBO);
@@ -172,8 +207,9 @@ int main()
 	}
 	
 #pragma endregion
+	unsigned int texture;
+	LoadImage("E:/128x128pixel1.png", texture);
 
-	
 	//渲染
 	while (!glfwWindowShouldClose(window))
 	{
@@ -186,19 +222,19 @@ int main()
 
 		// 激活着色器
 		// 更新uniform颜色
-		if (Program)
+		/*if (Program)
 		{
 			float timeValue = glfwGetTime();
 			float greenValue = sin(timeValue) / 2.0f + 0.5f;
 			Program->SetUniform4F("ourColor", Vector4f(0.0f, greenValue, 0.0f, 1.0f) + Vector4f(1.f, 0.f, 0.f, 0.f));
-		}
+		}*/
 		
 		glPolygonMode(GL_FRONT_AND_BACK, DrawMode);
 
 		//绑定顶点和索引
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
+		glBindTexture(GL_TEXTURE_2D, texture);
 		//绘制
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

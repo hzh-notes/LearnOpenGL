@@ -28,24 +28,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Private</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Private</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_imagecpp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
