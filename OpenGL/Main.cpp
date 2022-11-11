@@ -190,7 +190,7 @@ int main()
 		{
 			float timeValue = glfwGetTime();
 			float greenValue = sin(timeValue) / 2.0f + 0.5f;
-			Program->SetUniform4F("ourColor", Vector4f(0.0f, greenValue, 0.0f, 1.0f));
+			Program->SetUniform4F("ourColor", Vector4f(0.0f, greenValue, 0.0f, 1.0f) + Vector4f(1.f, 0.f, 0.f, 0.f));
 		}
 		
 		glPolygonMode(GL_FRONT_AND_BACK, DrawMode);
