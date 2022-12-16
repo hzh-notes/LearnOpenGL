@@ -10,13 +10,6 @@ Matrix::Matrix()
 		});
 }
 
-//Matrix::Matrix(float values[])
-//{
-//	std::vector<float> datas;
-//	memcpy(datas.data(), &values, sizeof(values) / sizeof(float));
-//	Matrix(datas);
-//}
-
 Matrix::Matrix(std::vector<float> values)
 {
 	for (int i = 0; i < 16; ++i)
