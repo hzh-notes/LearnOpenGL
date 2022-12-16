@@ -67,9 +67,7 @@ int LoadImage(std::string ImagPath, int index, unsigned int& OutTexture)
 
 int main()
 {
-	Matrix m;
-	float a = m[0];
-	//float b = 
+	
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

@@ -3,11 +3,11 @@
 #ifndef __VECTOR2_H
 #define __VECTOR2_H
 
-template <typename T> class TVector;
-template <typename T> class TVector4;
+template <typename T> struct TVector;
+template <typename T> struct TVector4;
 
 template <typename T>
-class TVector2
+struct TVector2
 {
 public:
 	TVector2() :X(0.0), Y(0.0) {};
