@@ -1,12 +1,11 @@
 #pragma once
 
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef __SHADER_H
+#define __SHADER_H
 
 #include "glad/glad.h"
 #include <string>
-#include "Vector3.h"
-#include "Vector4.h"
+#include "Vector.h"
 
 enum class EShaderType : GLenum
 {
@@ -44,7 +43,9 @@ public:
 
 	void Use();
 
-	void SetUniform4F(const std::string& Name, Vector4f Value);
+	void SetUniform1i(const std::string& Name, int Value);
+
+	void SetUniform4f(const std::string& Name, Vector4f Value);
 
 private:
 

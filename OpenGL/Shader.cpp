@@ -73,8 +73,14 @@ void ShaderProgram::Use()
 	glUseProgram(ShaderProgramId);
 }
 
-void ShaderProgram::SetUniform4F(const std::string& Name, Vector4f Value)
+void ShaderProgram::SetUniform1i(const std::string& Name, int Value)
 {
-	int vertexColorLocation = glGetUniformLocation(ShaderProgramId, Name.c_str());
-	glUniform4f(vertexColorLocation, Value.X, Value.Y, Value.Z, Value.W);
+	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
+	glUniform1i(Location, Value);
+}
+
+void ShaderProgram::SetUniform4f(const std::string& Name, Vector4f Value)
+{
+	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
+	glUniform4f(Location, Value.X, Value.Y, Value.Z, Value.W);
 }

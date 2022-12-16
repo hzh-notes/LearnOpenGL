@@ -3,14 +3,20 @@
 #ifndef __VECTOR4_H
 #define __VECTOR4_H
 
-#include "Vector3.h"
+template <typename T> class TVector2;
+template <typename T> class TVector;
 
 template <typename T>
 class TVector4
 {
 public:
-	TVector4() :X(0), Y(0), Z(0), W(0) {};
+	TVector4() :X(0.0), Y(0.0), Z(0.0), W(0.0) {};
+
 	TVector4(T InX, T InY, T InZ, T InW) :X(InX), Y(InY), Z(InZ), W(InW) {};
+
+	TVector4(const TVector2<T>& InVector2);
+
+	TVector4(const TVector<T>& InVector);
 
 public:
 
@@ -34,14 +40,6 @@ public:
 	T W;
 };
 
-//template <typename T>
-//TVector<T>::TVector(const TVector4<T>& InVector4)
-//	:X(InVector4.X)
-//	,Y(InVector4.Y)
-//	,Z(InVector4.Z)
-//{
-//	
-//}
 
 typedef TVector4<float> Vector4f;
 typedef TVector4<double> Vector4d;

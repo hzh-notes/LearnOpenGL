@@ -1,16 +1,22 @@
 #pragma once
 
-#ifndef __VECTOR_H
-#define __VECTOR_H
+#ifndef __VECTOR3_H
+#define __VECTOR3_H
+
+template <typename T> class TVector2;
+template <typename T> class TVector4;
 
 template <typename T>
-struct TVector
+class TVector
 {
 public:
-	TVector():X(0),Y(0),Z(0) {};
-	TVector(T InX, T InY, T InZ):X(InX), Y(InY), Z(InZ) {};
+	TVector() :X(0), Y(0), Z(0) {};
 
-	//TVector(const TVector4<T>& InVector4);
+	TVector(T InX, T InY, T InZ) :X(InX), Y(InY), Z(InZ) {};
+
+	TVector(const TVector2<T>& InVector2);
+
+	TVector(const TVector4<T>& InVector4);
 
 public:
 	TVector<T> operator+(const TVector<T>& Orther) const;
