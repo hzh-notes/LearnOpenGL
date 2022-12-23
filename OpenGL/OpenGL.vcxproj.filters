@@ -19,6 +19,12 @@
     <Filter Include="源文件\Private">
       <UniqueIdentifier>{d45b47d5-9d57-48bf-9071-cc339c97fe91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Public\Shapes">
+      <UniqueIdentifier>{9b63e2bb-7377-44ca-81d5-a5e87e0d6fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Private\Shapes">
+      <UniqueIdentifier>{1cf778fd-3b9f-4676-a13a-5f4196eef82b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -49,7 +55,10 @@
       <Filter>源文件\Private</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,7 +87,10 @@
       <Filter>头文件\Public</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

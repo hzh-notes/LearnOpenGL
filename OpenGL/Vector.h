@@ -47,6 +47,15 @@ TVector4<T>::TVector4(const TVector2<T>& InVector2)
 {
 
 }
+template <typename T>
+TVector4<T>::TVector4(const TVector<T>& InVector, float InW)
+	: X(InVector.X)
+	, Y(InVector.Y)
+	, Z(InVector.Z)
+	, W(InW)
+{
+
+}
 
 template <typename T>
 TVector4<T>::TVector4(const TVector<T>& InVector3)

@@ -16,6 +16,8 @@ public:
 
 	TVector4(const TVector2<T>& InVector2);
 
+	TVector4(const TVector<T>& InVector, float InW);
+
 	TVector4(const TVector<T>& InVector);
 
 public:

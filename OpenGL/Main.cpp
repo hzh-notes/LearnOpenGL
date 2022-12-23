@@ -67,7 +67,6 @@ int LoadImage(std::string ImagPath, int index, unsigned int& OutTexture)
 
 int main()
 {
-	
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -76,7 +75,7 @@ int main()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//初始化窗口
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 800, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -93,7 +92,7 @@ int main()
 	}
 
 	//设置视口大小
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, 800, 800);
 	//注册设置窗口大小的回调
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -156,8 +155,6 @@ int main()
 #pragma endregion
 	unsigned int texture0;
 	LoadImage("E:/container.jpg", 0, texture0);
-	/*glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture0);*/
 
 	unsigned int texture1;
 	LoadImage("E:/awesomeface.png",1, texture1);

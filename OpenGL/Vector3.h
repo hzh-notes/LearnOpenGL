@@ -27,9 +27,13 @@ public:
 
 	TVector<T> operator/(const TVector<T>& Orther) const;
 
+	TVector<T> operator/(T Value) const;
+
 	T operator|(const TVector<T>& Orther) const;
 
 	TVector<T> operator^(TVector<T>& Orther) const;
+
+	TVector<T> Normalize();
 
 public:
 

@@ -4,6 +4,7 @@
 #define __MATRIX
 
 #include <vector>
+#include "Vector.h"
 
 struct Matrix
 {
@@ -11,17 +12,39 @@ public:
 
 	Matrix();
 
-	Matrix(std::vector<float> values);
+	Matrix(std::vector<float> Values);
+public:
 
-	//Matrix operator+(const float Value);
+	Matrix operator*(const Matrix& Other) const;
 
-	float operator[](const unsigned int Value);
+	Vector4f Row(int RowNum) const;
+
+	Vector4f Column(int ColumnNum) const;
+
+	Vector3f TransformPosition(const Vector3f& V) const;
+
+	Vector4f TransformVector4f(const Vector4f& V) const;
+	
+	static Matrix Indentity();
+
+	static Matrix Translate(Vector3f Tranlation);
+
+	static Matrix RotateX(float Angle);
+
+	static Matrix RotateY(float Angle);
+
+	static Matrix RotateZ(float Angle);
+
+	static Matrix Rotate(Vector3f Rotation);
+
+	static Matrix Scale(Vector3f Scale3D);
+
+	static Matrix LookAt(Vector3f Eye, Vector3f Target, Vector3f Up);
+
+	static Matrix ReversedZPerspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ);
 
 public:
-	//static Matrix* Indentity = new Matrix({});
-
-private:
-	float m[16];
+	float M[16];
 };
 
 #endif
