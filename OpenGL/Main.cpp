@@ -96,6 +96,7 @@ int main()
 	//注册设置窗口大小的回调
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	
 	VertexDescription vertices[] = {
 		VertexDescription(Vector3f(0.5f,  0.5f, 0.0f),Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(1.0f, 1.0f)),
 		VertexDescription(Vector3f(0.5f, -0.5f, 0.0f),Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector2f(1.0f, 0.0f)),

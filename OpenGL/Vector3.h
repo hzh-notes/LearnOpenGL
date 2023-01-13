@@ -12,6 +12,8 @@ struct TVector
 public:
 	TVector() :X(0), Y(0), Z(0) {};
 
+	TVector(T Value) :X(Value), Y(Value), Z(Value) {};
+
 	TVector(T InX, T InY, T InZ) :X(InX), Y(InY), Z(InZ) {};
 
 	TVector(const TVector2<T>& InVector2);
