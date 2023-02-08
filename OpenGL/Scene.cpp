@@ -3,7 +3,8 @@
 #include "IndexBuffer.h"
 
 #include <iostream>
-
+#include <direct.h>
+#include <windows.h>
 #include "stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -165,9 +166,17 @@ void Scene::ShaderCompile()
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
 	
-
-	Shader* VertexShader = new Shader("E:/C++/LearnOpenGL/Shader/VertexShader.txt", EShaderType::VertexShader);
-	Shader* PixelShader = new Shader("E:/C++/LearnOpenGL/Shader/PixelShader.txt", EShaderType::PixelShader);
+	char buffer[MAX_PATH];
+	_getcwd(buffer, MAX_PATH);
+	std::string path = buffer;
+	std::string vspath = path + "\\Shader\\VertexShader.txt";
+	std::string pspath = path + "\\Shader\\PixelShader.txt";
+	const char* aa = vspath.c_str();
+	
+	Shader* VertexShader = new Shader(vspath.c_str(), EShaderType::VertexShader);
+	Shader* PixelShader = new Shader(pspath.c_str(), EShaderType::PixelShader);
+	//Shader* VertexShader = new Shader("E:\\C++\\LearnOpenGL\\Shader\\VertexShader.txt", EShaderType::VertexShader);
+	//Shader* PixelShader = new Shader("E:\\C++\\LearnOpenGL\\Shader\\PixelShader.txt", EShaderType::PixelShader);
 
 
 	if (VertexShader->Compile() && PixelShader->Compile())
@@ -195,10 +204,12 @@ void Scene::ShaderCompile()
 	}
 
 	unsigned int texture0;
-	LoadImage("E:/container.jpg", 0, texture0);
+	std::string texturepath0 = path + "\\Texture\\container.jpg";
+	LoadImage(texturepath0, 0, texture0);
 
 	unsigned int texture1;
-	LoadImage("E:/awesomeface.png", 1, texture1);
+	std::string texturepath1 = path + "\\Texture\\awesomeface.png";
+	LoadImage(texturepath1, 1, texture1);
 
 	Program->SetUniform1i("texture0", 0);
 	Program->SetUniform1i("texture1", 1);
