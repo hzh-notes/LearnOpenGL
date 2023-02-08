@@ -1,7 +1,7 @@
 #include "IndexBuffer.h"
 #include "glad/glad.h"
 
-IndexBuffer::IndexBuffer(const unsigned int* Indices, int Size)
+IndexBuffer::IndexBuffer(const int* Indices, int Size)
 {
 	NumBytes = Size;
 
@@ -12,5 +12,5 @@ IndexBuffer::IndexBuffer(const unsigned int* Indices, int Size)
 
 int IndexBuffer::GetNumIndices()
 {
-	return NumBytes  / sizeof(float);
+	return NumBytes  / sizeof(int);
 }

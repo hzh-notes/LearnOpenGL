@@ -88,8 +88,8 @@ Matrix Matrix::RotateX(float Angle)
 	return Matrix(
 		{
 			1.f, 0.f, 0.f,0.f,
-			0.f, CosX, SinX,0.f,
-			0.f, -SinX, CosX,0.f,
+			0.f, CosX, -SinX,0.f,
+			0.f, SinX, CosX,0.f,
 			0.f, 0.f, 0.f,1.f
 		});
 }
@@ -100,9 +100,9 @@ Matrix Matrix::RotateY(float Angle)
 	float CosY = cos(Angle * PI / 180.f);
 	return Matrix(
 		{
-			CosY, 0.f, -SinY,0.f,
+			CosY, 0.f, SinY,0.f,
 			0.f, 1.f, 0.f,0.f,
-			SinY, 0.f, CosY,0.f,
+			-SinY, 0.f, CosY,0.f,
 			0.f, 0.f, 0.f,1.f
 		});
 }
@@ -122,7 +122,7 @@ Matrix Matrix::RotateZ(float Angle)
 
 Matrix Matrix::Rotate(Vector3f Rotation)
 {
-	return RotateZ(Rotation.Z) * RotateX(Rotation.X) * RotateY(Rotation.Y);
+	return RotateZ(Rotation.Z) * RotateY(Rotation.Y) * RotateX(Rotation.X);
 }
 
 Matrix Matrix::Scale(Vector3f Scale3D)

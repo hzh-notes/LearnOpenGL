@@ -8,6 +8,11 @@
 struct VertexDescription
 {
 public:
+	VertexDescription()
+		:Position(Vector3f())
+		,Color(Vector4f(1))
+		,UV(Vector2f())
+	{}
 
 	VertexDescription(Vector3f InPosition, Vector4f InColor, Vector2f InUV)
 		: Position(InPosition)

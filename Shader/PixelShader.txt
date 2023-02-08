@@ -11,8 +11,6 @@ in vec2 TexCoord;
 void main()
 {
 	vec2 UV = 1.0f * TexCoord;
-	UV.y = 1.0 - UV.y;
 	FragColor = mix(texture(texture0, UV), texture(texture1, UV), 0.2);
-	//TexCoord.x > TexCoord.y ? texture(texture0, TexCoord) : texture(texture1, TexCoord);
 	FragColor.a = 1.0;
 }

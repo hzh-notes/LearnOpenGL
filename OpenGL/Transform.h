@@ -7,23 +7,26 @@ class Transform
 public:
 	Transform()
 		:Position(Vector3f())
-		,Rotation(Vector3f())
-		,Scale3D(Vector3f(1.f))
+		, Rotation(Vector3f())
+		, Scale3D(Vector3f(1.f))
 	{}
 
 	Transform(Vector3f InPosition)
 		:Position(InPosition)
+		, Rotation(Vector3f())
+		, Scale3D(Vector3f(1.f))
 	{}
 
 	Transform(Vector3f InPosition, Vector3f InRotation)
 		:Position(InPosition)
-		,Rotation(InRotation)
+		, Rotation(InRotation)
+		, Scale3D(Vector3f(1.f))
 	{}
 
 	Transform(Vector3f InPosition, Vector3f InRotation, Vector3f InScale3D)
 		:Position(InPosition)
-		,Rotation(InRotation)
-		,Scale3D(InScale3D)
+		, Rotation(InRotation)
+		, Scale3D(InScale3D)
 	{}
 
 public:

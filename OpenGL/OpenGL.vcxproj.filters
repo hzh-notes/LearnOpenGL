@@ -63,6 +63,15 @@
     <ClCompile Include="Transform.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>源文件\Private\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -97,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>头文件\Public\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

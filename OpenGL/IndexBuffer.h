@@ -7,7 +7,7 @@ class IndexBuffer
 {
 public:
 
-	IndexBuffer(const unsigned int* Indices, int Size);
+	IndexBuffer(const int* Indices, int Size);
 
 	int GetNumIndices();
 
