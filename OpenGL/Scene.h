@@ -3,12 +3,12 @@
 #ifndef __SCENE
 #define __SCENE
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "Camera.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include <vector>
+
+struct GLFWwindow;
 
 class Scene
 {

@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
@@ -171,13 +173,9 @@ void Scene::ShaderCompile()
 	std::string path = buffer;
 	std::string vspath = path + "\\Shader\\VertexShader.txt";
 	std::string pspath = path + "\\Shader\\PixelShader.txt";
-	const char* aa = vspath.c_str();
 	
 	Shader* VertexShader = new Shader(vspath.c_str(), EShaderType::VertexShader);
 	Shader* PixelShader = new Shader(pspath.c_str(), EShaderType::PixelShader);
-	//Shader* VertexShader = new Shader("E:\\C++\\LearnOpenGL\\Shader\\VertexShader.txt", EShaderType::VertexShader);
-	//Shader* PixelShader = new Shader("E:\\C++\\LearnOpenGL\\Shader\\PixelShader.txt", EShaderType::PixelShader);
-
 
 	if (VertexShader->Compile() && PixelShader->Compile())
 	{
