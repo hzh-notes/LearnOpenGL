@@ -29,19 +29,21 @@ private:
 
 	void ShaderCompile();
 
-	void GatherMeshInfo(Mesh* InMesh, Matrix& OutModel, Matrix& OutView, Matrix& OutProjection);
+	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
+
+	void GatherMeshInfo(Mesh* InMesh, Matrix& OutModel);
 
 private:
 
-	Camera* mainCamera = nullptr;
+	Camera* MainCamera = nullptr;
 	std::vector<Mesh*> Meshes;
 
-	std::vector<VertexDescription> vertices;
-	std::vector<int> indices;
+	std::vector<MeshVertex> Vertices;
+	std::vector<int> Indices;
 
 	bool bRenderDataDirty = true;
 
-	GLFWwindow* window = nullptr;
+	GLFWwindow* Window = nullptr;
 	ShaderProgram* Program = nullptr;
 };
 

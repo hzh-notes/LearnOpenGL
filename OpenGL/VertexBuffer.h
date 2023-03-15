@@ -5,22 +5,26 @@
 
 #include "Vector.h"
 
-struct VertexDescription
+struct MeshVertex
 {
 public:
-	VertexDescription()
-		:Position(Vector3f())
-		,Color(Vector4f(1))
-		,UV(Vector2f())
+	MeshVertex()
+		: Position(Vector3f())
+		, Normal(Vector3f())
+		, Color(Vector4f(1))
+		, UV(Vector2f())
 	{}
 
-	VertexDescription(Vector3f InPosition, Vector4f InColor, Vector2f InUV)
+	MeshVertex(Vector3f InPosition,Vector3f InNormal, Vector4f InColor, Vector2f InUV)
 		: Position(InPosition)
+		, Normal(InNormal)
 		, Color(InColor)
 		, UV(InUV)
 	{}
 
 	Vector3f Position;
+
+	Vector3f Normal;
 
 	Vector4f Color;
 
@@ -30,7 +34,9 @@ public:
 class VertexBuffer
 {
 public:
-	VertexBuffer(const VertexDescription* Vertices, int Size);
+	VertexBuffer(const MeshVertex* Vertices, int Size);
+
+	void SetVertexElement(unsigned int Index, unsigned int Size, unsigned int Type, unsigned int Stride, unsigned int Offset, bool Normalized);
 
 public:
 

@@ -56,7 +56,7 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
 	ShaderCompile();
-	mainCamera = new Camera();
+	MainCamera = new Camera();
 }
 
 void Scene::Render()
@@ -67,16 +67,17 @@ void Scene::Render()
 
 	if (bRenderDataDirty)
 	{
+		Matrix model, view, projection;
+		GetCameraInfo(view, projection);
 		for (Mesh* mesh : Meshes)
 		{
-			vertices.clear();
-			indices.clear();
+			Vertices.clear();
+			Indices.clear();
 
-			Matrix model, view, projection;
-			GatherMeshInfo(mesh, model, view, projection);
+			GatherMeshInfo(mesh, model);
 
-			VertexBuffer* vBuffer = new VertexBuffer(vertices.data(), sizeof(VertexDescription) * vertices.size());
-			IndexBuffer* iBuffer = new IndexBuffer(indices.data(), sizeof(int) * indices.size());
+			VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
+			IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
 
 			//设置uniform变量
 			if (Program)
@@ -84,36 +85,36 @@ void Scene::Render()
 				Program->SetUniform4x4("model", model);
 				Program->SetUniform4x4("view", view);
 				Program->SetUniform4x4("projection", projection);
+
+				Program->SetUniform3f("lightPos", Vector3f(0, 0, 0));
+				Program->SetUniform3f("camPos", MainCamera->transform.Position);
 			}
 
 			//绑定顶点和索引
 			glBindVertexArray(vBuffer->BufferId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer->BufferId);
 			//绘制模式
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL/*GL_LINE*/);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			//绘制
-			glDrawArrays(GL_TRIANGLES, 0, indices.size());
+			//glDrawArrays(GL_TRIANGLES, 0, indices.size());
+			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 		}
 
-		
-		//bRenderDataDirty = false;
+
+
 	}
 	// 激活着色器
-		// 更新uniform颜色
-		/*if (Program)
-		{
-			float timeValue = glfwGetTime();
-			float greenValue = sin(timeValue) / 2.0f + 0.5f;
-			Program->SetUniform4F("ColorTest", Vector4f(1.0f, greenValue, 1.0f, 1.0f));
+	// 更新uniform颜色
+	/*if (Program)
+	{
+		float timeValue = glfwGetTime();
+		float greenValue = sin(timeValue) / 2.0f + 0.5f;
+		Program->SetUniform4F("ColorTest", Vector4f(1.0f, greenValue, 1.0f, 1.0f));
 
-		}*/
-
-
-	
-	//glDrawElements(GL_TRIANGLES, indices.size(), GL_INT, 0);
+	}*/
 
 	glfwPollEvents();
-	glfwSwapBuffers(window);
+	glfwSwapBuffers(Window);
 }
 
 void Scene::Release()
@@ -129,7 +130,7 @@ void Scene::AddMesh(Mesh* NewMesh)
 
 int Scene::ShouldWindowClose()
 {
-	return glfwWindowShouldClose(window);
+	return glfwWindowShouldClose(Window);
 }
 
 int Scene::WindowInit()
@@ -141,14 +142,14 @@ int Scene::WindowInit()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//初始化窗口
-	window = glfwCreateWindow(1080, 720, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
+	Window = glfwCreateWindow(1080, 720, "LearnOpenGL", NULL, NULL);
+	if (Window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(Window);
 
 	//加载glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -160,20 +161,20 @@ int Scene::WindowInit()
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
 	//注册设置窗口大小的回调
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 }
 
 void Scene::ShaderCompile()
 {
 	unsigned int vertexShader;
 	unsigned int fragmentShader;
-	
+
 	char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
 	std::string path = buffer;
 	std::string vspath = path + "\\Shader\\VertexShader.txt";
 	std::string pspath = path + "\\Shader\\PixelShader.txt";
-	
+
 	Shader* VertexShader = new Shader(vspath.c_str(), EShaderType::VertexShader);
 	Shader* PixelShader = new Shader(pspath.c_str(), EShaderType::PixelShader);
 
@@ -213,11 +214,16 @@ void Scene::ShaderCompile()
 	Program->SetUniform1i("texture1", 1);
 }
 
-void Scene::GatherMeshInfo(Mesh* InMesh, Matrix& OutModel, Matrix& OutView, Matrix& OutProjection)
+void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const
 {
-	OutModel = InMesh->transform.GetMatrixWithScale();
-	OutView = mainCamera->GetViewMatrix();
-	OutProjection = mainCamera->GetProjectMatrix();
+	OutView = MainCamera->GetViewMatrix();
+	OutProjection = MainCamera->GetProjectMatrix();
+}
+
+void Scene::GatherMeshInfo(Mesh* InMesh, Matrix& OutModel)
+{
+	OutModel = InMesh->MeshTransform.GetMatrixWithScale();
+	
 	//Matrix mvpMatrix = modelMatrix * viewMatrix * projectMatrix;
 
 	/*Vector3f point(50, 0, 0);
@@ -225,23 +231,5 @@ void Scene::GatherMeshInfo(Mesh* InMesh, Matrix& OutModel, Matrix& OutView, Matr
 	Vector3f v2 = viewMatrix.TransformPosition(v1);
 	Vector3f v3 = projectMatrix.TransformPosition(v2);*/
 
-	std::vector<Vector3f> positions = InMesh->positions;
-	std::vector<Vector2f> uvs = InMesh->uvs;
-	int index = indices.size();
-	std::vector<int> meshIndices = InMesh->indices;
-
-	for (int i = 0; i < meshIndices.size(); ++i)
-	{
-		int curIndex = meshIndices[i];
-		/*Vector3f screenPosition = mvpMatrix.TransformPosition(positions[curIndex]);
-		screenPosition.Z = 1.0 - screenPosition.Z;*/
-		Vector2f uv = uvs[curIndex];
-		vertices.push_back(VertexDescription(positions[curIndex], Vector4f(1), uv));
-	}
-
-	for (int i = 0; i < meshIndices.size(); ++i)
-	{
-		indices.push_back(meshIndices[i] + index);
-	}
-
+	InMesh->GetElementInfo(Vertices, Indices);
 }

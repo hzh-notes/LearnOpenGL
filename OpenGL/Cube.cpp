@@ -2,7 +2,7 @@
 
 void Cube::InitMesh()
 {
-	Mesh::InitMesh();
+	//Mesh::InitMesh();
 	//positions =
 	//{
 	//	Vector3f(-50,-50,50), //0
@@ -15,43 +15,40 @@ void Cube::InitMesh()
 	//	Vector3f(-50,50,-50), //7
 	//};
 
-	positions =
+	Vertices =
 	{
-		Vector3f(-50,-50,-50),Vector3f(50,-50,50),Vector3f(-50,-50,50),
-		Vector3f(50,-50,-50),
+		MeshVertex(Vector3f(-50,-50,-50), Vector3f(0,-1,0), Vector4f(1,1,1,1), Vector2f(1,0)),
+		MeshVertex(Vector3f(50,-50,50), Vector3f(0,-1,0), Vector4f(1,1,1,1), Vector2f(0,1)),
+		MeshVertex(Vector3f(-50,-50,50), Vector3f(0,-1,0), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(50,-50,-50), Vector3f(0,-1,0), Vector4f(1,1,1,1), Vector2f(0,0)),
 
-		Vector3f(-50,-50,50),Vector3f(50,50,50),Vector3f(-50,50,50),
-		Vector3f(50,-50,50),
+		MeshVertex(Vector3f(-50,-50,50), Vector3f(0,0,1), Vector4f(1,1,1,1), Vector2f(0,0)),
+		MeshVertex(Vector3f(50,50,50), Vector3f(0,0,1), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(-50,50,50), Vector3f(0,0,1), Vector4f(1,1,1,1), Vector2f(1,0)),
+		MeshVertex(Vector3f(50,-50,50), Vector3f(0,0,1), Vector4f(1,1,1,1), Vector2f(0,1)),
 
-		Vector3f(-50,50,-50),Vector3f(-50,-50,50),Vector3f(-50,50,50),
-		Vector3f(-50,-50,-50),
+		MeshVertex(Vector3f(-50,50,-50), Vector3f(-1,0,0), Vector4f(1,1,1,1), Vector2f(1,0)),
+		MeshVertex(Vector3f(-50,-50,50), Vector3f(-1,0,0), Vector4f(1,1,1,1), Vector2f(0,1)),
+		MeshVertex(Vector3f(-50,50,50), Vector3f(-1,0,0), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(-50,-50,-50), Vector3f(-1,0,0), Vector4f(1,1,1,1), Vector2f(0,0)),
 
-		Vector3f(50,-50,-50),Vector3f(50,50,50),Vector3f(50,-50,50),
-		Vector3f(50,50,-50),
+		MeshVertex(Vector3f(50,-50,-50), Vector3f(1,0,0), Vector4f(1,1,1,1), Vector2f(1,0)),
+		MeshVertex(Vector3f(50,50,50), Vector3f(1,0,0), Vector4f(1,1,1,1), Vector2f(0,1)),
+		MeshVertex(Vector3f(50,-50,50), Vector3f(1,0,0), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(50,50,-50), Vector3f(1,0,0), Vector4f(1,1,1,1), Vector2f(0,0)),
 
-		Vector3f(-50,50,-50),Vector3f(-50,50,50),Vector3f(50,50,50),
-		Vector3f(50,50,-50),
+		MeshVertex(Vector3f(-50,50,-50), Vector3f(0,1,0), Vector4f(1,1,1,1), Vector2f(0,0)),
+		MeshVertex(Vector3f(-50,50,50), Vector3f(0,1,0), Vector4f(1,1,1,1), Vector2f(0,1)),
+		MeshVertex(Vector3f(50,50,50), Vector3f(0,1,0), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(50,50,-50), Vector3f(0,1,0), Vector4f(1,1,1,1), Vector2f(1,0)),
 
-		Vector3f(-50,-50,-50),Vector3f(50,50,-50),Vector3f(50,-50,-50),
-		Vector3f(-50,50,-50),
+		MeshVertex(Vector3f(-50,-50,-50), Vector3f(0,0,-1), Vector4f(1,1,1,1), Vector2f(0,0)),
+		MeshVertex(Vector3f(50,50,-50), Vector3f(0,0,-1), Vector4f(1,1,1,1), Vector2f(1,1)),
+		MeshVertex(Vector3f(50,-50,-50), Vector3f(0,0,-1), Vector4f(1,1,1,1), Vector2f(1,0)),
+		MeshVertex(Vector3f(-50,50,-50), Vector3f(0,0,-1), Vector4f(1,1,1,1), Vector2f(0,0))
 	};
 
-	uvs = 
-	{
-		Vector2f(1,0),Vector2f(0,1),Vector2f(1,1),Vector2f(0,0),
-		
-		Vector2f(0,0),Vector2f(1,1),Vector2f(1,0),Vector2f(0,1),
-
-		Vector2f(1,0),Vector2f(0,1),Vector2f(1,1),Vector2f(0,0),
-
-		Vector2f(1,0),Vector2f(0,1),Vector2f(1,1),Vector2f(0,0),
-
-		Vector2f(0,0),Vector2f(0,1),Vector2f(1,1),Vector2f(1,0),
-
-		Vector2f(0,0),Vector2f(1,1),Vector2f(1,0),Vector2f(0,1),
-	};
-
-	indices =
+	Indices =
 	{
 		0,1,2,0,3,1,		//1,3,0,1,2,3,//
 		4,5,6,4,7,5,		//0,5,4,0,3,5,//

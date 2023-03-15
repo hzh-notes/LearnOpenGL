@@ -48,6 +48,8 @@ public:
 
 	void SetUniform4f(const std::string& Name, Vector4f Value);
 
+	void SetUniform3f(const std::string& Name, Vector3f Value);
+
 	void SetUniform4x4(const std::string& Name, Matrix Value);
 
 private:

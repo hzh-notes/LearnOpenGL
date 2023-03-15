@@ -12,27 +12,25 @@ public:
 	}
 
 	Mesh(Transform InTransform)
-		:transform(InTransform)
+		:MeshTransform(InTransform)
 	{
 		InitMesh();
 	}
 
+	void GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices);
+
 protected:
 	virtual void InitMesh() {};
 
-	void GetElementInfo(std::vector<VertexDescription>& OutVertices, std::vector<int>& OutIndices);
+public:
+
+	Transform MeshTransform;
 
 public:
 
-	Transform transform;
+	std::vector<MeshVertex> Vertices;
 
-public:
-
-	std::vector<Vector3f> positions;
-
-	std::vector<Vector2f> uvs;
-
-	std::vector<int> indices;
+	std::vector<int> Indices;
 
 };
 

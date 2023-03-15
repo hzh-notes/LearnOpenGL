@@ -22,8 +22,9 @@ using namespace std;
 int main()
 {
 	Scene* scene = new Scene();
-	scene->AddMesh(new Cube(Transform(Vector3f(500, 0, 0), Vector3f(0, 30, 0))));
-	scene->AddMesh(new Cube(Transform(Vector3f(800, 500, 0), Vector3f(30, 30, 0))));
+	
+	scene->AddMesh(new Cube(Transform(Vector3f(100, 0, 0), Vector3f(0, 30, 0), Vector3f(0.2))));
+	scene->AddMesh(new Cube(Transform(Vector3f(300, 100, 0), Vector3f(30, 30, 0))));
 
 	//äÖÈ¾
 	while (!scene->ShouldWindowClose())
