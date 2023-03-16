@@ -2,7 +2,7 @@
 
 #include "Cube.h"
 #include "Scene.h"
-
+#include "GLFW/glfw3.h"
 using namespace std;
 
 
@@ -23,8 +23,9 @@ int main()
 {
 	Scene* scene = new Scene();
 	
-	scene->AddMesh(new Cube(Transform(Vector3f(100, 0, 0), Vector3f(0, 30, 0), Vector3f(0.2))));
-	scene->AddMesh(new Cube(Transform(Vector3f(300, 100, 0), Vector3f(30, 30, 0))));
+	Mesh* cube1 = new Cube(Transform(Vector3f(150, 0, 0), Vector3f(0, 0, 10), Vector3f(0.5)));
+	scene->AddMesh(cube1);
+	scene->AddMesh(new Cube(Transform(Vector3f(100, 100, 0), Vector3f(30, 30, 0), Vector3f(0.7))));
 
 	//äÖÈ¾
 	while (!scene->ShouldWindowClose())
@@ -32,6 +33,8 @@ int main()
 		//processInput(window);
 
 #pragma region Rendering
+
+		cube1->MeshTransform.Rotation = Vector3f(0, 0, glfwGetTime() * 10.f);
 
 		scene->Render();
 #pragma endregion

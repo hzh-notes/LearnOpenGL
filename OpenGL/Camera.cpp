@@ -2,7 +2,7 @@
 
 Matrix Camera::GetProjectMatrix()
 {
-	return Matrix::ReversedZPerspective(fov / 2.0, witdh, height, nearClip, farClip);
+	return Matrix::Perspective(fov / 2.0, witdh, height, nearClip, farClip);
 }
 
 Matrix Camera::GetViewMatrix()

@@ -13,17 +13,16 @@ out vec3 Normal;
 out vec2 TexCoord;
 
 out vec3 FragPos;
+//out mat4 WorldToClip;
 
 void main()
 {
-	gl_Position = projection * view * model * vec4(aPos, 1.0);
-	gl_Position.z = 1.0 - gl_Position.z;
+
+	FragPos = vec3(model * vec4(aPos, 1.0));
+	gl_Position = projection * view * vec4(FragPos, 1.0);
 	
     ourColor = aColor;
 	Normal = mat3(transpose(inverse(model))) * aNormal;
     TexCoord = aTexCoord;
-	TexCoord.y = 1 - TexCoord.y;
 	
-	vec4 worldPos = model * vec4(aPos, 1.0);
-	FragPos = worldPos.xyz;
 }

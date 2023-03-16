@@ -56,12 +56,12 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
 	ShaderCompile();
-	MainCamera = new Camera();
+	MainCamera = new Camera(Transform(Vector3f(-100.f, 100.f, 0.f), Vector3f(0.f, 0.f, -30.f)));
 }
 
 void Scene::Render()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -85,9 +85,19 @@ void Scene::Render()
 				Program->SetUniform4x4("model", model);
 				Program->SetUniform4x4("view", view);
 				Program->SetUniform4x4("projection", projection);
+				Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
-				Program->SetUniform3f("lightPos", Vector3f(0, 0, 0));
-				Program->SetUniform3f("camPos", MainCamera->transform.Position);
+				//light
+				Program->SetUniform3f("light.lightPos", Vector3f(-100.f, 100.f, 0.f));
+				Program->SetUniform3f("light.ambientStrength", Vector3f(0.1f));
+				Program->SetUniform3f("light.diffuseStrength", Vector3f(0.5f));
+				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
+
+				//material
+				Program->SetUniform3f("material.ambient", Vector3f(1.0f, 0.5f, 0.31f));
+				Program->SetUniform3f("material.diffuse", Vector3f(1.0f, 0.5f, 0.31f));
+				Program->SetUniform3f("material.specular", Vector3f(0.5f));
+				Program->SetUniform1i("material.shininess", 256.f);
 			}
 
 			//绑定顶点和索引

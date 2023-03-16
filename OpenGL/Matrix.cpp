@@ -138,7 +138,7 @@ Matrix Matrix::Scale(Vector3f Scale3D)
 
 Matrix Matrix::LookAt(Vector3f Eye, Vector3f Target, Vector3f Up)
 {
-	Vector3f AxisZ = (Target - Eye).Normalize();
+	Vector3f AxisZ = Target.Normalize();
 	Vector3f AxisX = (Up ^ AxisZ).Normalize();
 	Vector3f AxisY = (AxisZ ^ AxisX).Normalize();
 
@@ -152,6 +152,18 @@ Matrix Matrix::LookAt(Vector3f Eye, Vector3f Target, Vector3f Up)
 			AxisX.Y, AxisY.Y, AxisZ.Y, 0.f,
 			AxisX.Z, AxisY.Z, AxisZ.Z, 0.f,
 			EyeX, EyeY, EyeZ, 1.f
+		});
+}
+
+Matrix Matrix::Perspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ)
+{
+	HalfFOV = HalfFOV * PI / 180.0f;
+	return Matrix(
+		{
+			1.0f / (float)tan(HalfFOV), 0.0f, 0.0f, 0.0f,
+			0.0f, Width / (float)tan(HalfFOV) / Height, 0.0f, 0.0f,
+			0.0f, 0.0f, ((MinZ == MaxZ) ? 1.0f : MaxZ / (MaxZ - MinZ)), 1.0f,
+			0.0f, 0.0f, ((MinZ == MaxZ) ? -MinZ : -MaxZ * MinZ / (MaxZ - MinZ)), 0.0f
 		});
 }
 

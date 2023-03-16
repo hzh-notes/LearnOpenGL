@@ -22,7 +22,7 @@ public:
 public:
 
 	double nearClip = 1.0;
-	double farClip = 1000.0;
+	double farClip = 10000.0;
 	double fov = 90;
 	double witdh = 1080.0;
 	double height = 720.0;
