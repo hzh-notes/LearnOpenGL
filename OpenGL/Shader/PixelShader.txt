@@ -48,7 +48,7 @@ void main()
     vec3 specular = material.specular * spec * light.specularStrength;  
 	
 	vec2 uv = 1.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
-	vec4 objColor = mix(texture(texture0, uv), texture(texture1, uv), 0.2);
-	FragColor = vec4(min(ambient + diffuse + specular, 1.0), 1.0) * objColor;
+	vec3 objColor = mix(texture(texture0, uv), texture(texture1, uv), 0.2).xyz;
+	FragColor = vec4(min(ambient + diffuse * objColor + specular, 1.0), 1.0);
 
 }

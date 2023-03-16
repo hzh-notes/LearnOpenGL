@@ -94,10 +94,10 @@ void Scene::Render()
 				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
 
 				//material
-				Program->SetUniform3f("material.ambient", Vector3f(1.0f, 0.5f, 0.31f));
-				Program->SetUniform3f("material.diffuse", Vector3f(1.0f, 0.5f, 0.31f));
+				Program->SetUniform3f("material.ambient", Vector3f(1.0f));
+				Program->SetUniform3f("material.diffuse", Vector3f(1.0f));
 				Program->SetUniform3f("material.specular", Vector3f(0.5f));
-				Program->SetUniform1i("material.shininess", 256.f);
+				Program->SetUniform1i("material.shininess", 32.f);
 			}
 
 			//绑定顶点和索引
