@@ -30,7 +30,7 @@ public:
 
 	T operator|(const TVector2<T>& Orther) const;
 
-	T operator^(TVector2<T>& Orther) const;
+	T operator^(const TVector2<T>& Orther) const;
 
 public:
 

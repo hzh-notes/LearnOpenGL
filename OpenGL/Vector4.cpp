@@ -35,7 +35,7 @@ T TVector4<T>::operator|(const TVector4<T>& Orther) const
 }
 
 template <typename T>
-TVector4<T> TVector4<T>::operator^(TVector4<T>& Orther) const
+TVector4<T> TVector4<T>::operator^(const TVector4<T>& Orther) const
 {
 	return TVector4(
 		Y * Orther.Z - Z * Orther.Y,

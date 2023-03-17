@@ -33,7 +33,7 @@ public:
 
 	T operator|(const TVector<T>& Orther) const;
 
-	TVector<T> operator^(TVector<T>& Orther) const;
+	TVector<T> operator^(const TVector<T>& Orther) const;
 
 	TVector<T> Normalize();
 
