@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-Matrix Transform::GetMatrixWithScale()
+Matrix Transform::GetMatrixWithScale() const
 {
 	Matrix TranslateMat = Matrix::Translate(Position);
 	Matrix RotateMat = Matrix::Rotate(Rotation);
@@ -9,11 +9,16 @@ Matrix Transform::GetMatrixWithScale()
 	return ScaleMat * RotateMat * TranslateMat;
 }
 
-Matrix Transform::GetMatrixWithoutScale()
+Matrix Transform::GetMatrixWithoutScale() const
 {
 	Matrix TranslateMat = Matrix::Translate(Position);
 	Matrix RotateMat = Matrix::Rotate(Rotation);
 	Matrix ScaleMat = Matrix::Scale(Vector3f());
 
 	return ScaleMat * RotateMat * TranslateMat;
+}
+
+Matrix Transform::GetRotationMatrix() const
+{
+	return Matrix::Rotate(Rotation);
 }

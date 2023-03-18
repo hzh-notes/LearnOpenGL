@@ -7,46 +7,10 @@
 #include <iostream>
 #include <direct.h>
 #include <windows.h>
-#include "stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-int LoadImage(std::string ImagPath, int index, unsigned int& OutTexture)
-{
-	glGenTextures(1, &OutTexture);
-
-	glActiveTexture(GL_TEXTURE0 + index);
-	glBindTexture(GL_TEXTURE_2D, OutTexture);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	int Width, Height, NumChannels;
-	unsigned char* Data = stbi_load(ImagPath.c_str(), &Width, &Height, &NumChannels, 0);
-	if (Data)
-	{
-		GLint TextureFormat = GL_RGB;
-		if (NumChannels == 4)
-		{
-			TextureFormat = GL_RGBA;
-		}
-		glTexImage2D(GL_TEXTURE_2D, 0, TextureFormat, Width, Height, 0, TextureFormat, GL_UNSIGNED_BYTE, Data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-		return -1;
-	}
-
-	stbi_image_free(Data);
-	return 1;
 }
 
 Scene::Scene()
@@ -94,10 +58,12 @@ void Scene::Render()
 				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
 
 				//material
-				Program->SetUniform3f("material.ambient", Vector3f(1.0f));
-				Program->SetUniform3f("material.diffuse", Vector3f(1.0f));
+				Program->SetUniformTexture2D("material.diffuse", "container2.png", 0);
+				Program->SetUniformTexture2D("material.specular", "lighting_maps_specular_color.png", 1);
+				Program->SetUniform1i("material.bEmission", true);
+				Program->SetUniformTexture2D("material.emission", "matrix.jpg", 2);
 				Program->SetUniform3f("material.specular", Vector3f(0.5f));
-				Program->SetUniform1i("material.shininess", 32.f);
+				Program->SetUniform1i("material.shininess", 32);
 			}
 
 			//绑定顶点和索引
@@ -113,15 +79,6 @@ void Scene::Render()
 
 
 	}
-	// 激活着色器
-	// 更新uniform颜色
-	/*if (Program)
-	{
-		float timeValue = glfwGetTime();
-		float greenValue = sin(timeValue) / 2.0f + 0.5f;
-		Program->SetUniform4F("ColorTest", Vector4f(1.0f, greenValue, 1.0f, 1.0f));
-
-	}*/
 
 	glfwPollEvents();
 	glfwSwapBuffers(Window);
@@ -130,6 +87,9 @@ void Scene::Render()
 void Scene::Release()
 {
 	//释放资源
+	delete Program, MainCamera;
+	Program = nullptr;
+	MainCamera = nullptr;
 	glfwTerminate();
 }
 
@@ -176,9 +136,6 @@ int Scene::WindowInit()
 
 void Scene::ShaderCompile()
 {
-	unsigned int vertexShader;
-	unsigned int fragmentShader;
-
 	char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
 	std::string path = buffer;
@@ -190,10 +147,7 @@ void Scene::ShaderCompile()
 
 	if (VertexShader->Compile() && PixelShader->Compile())
 	{
-		vertexShader = VertexShader->ShaderId;
-		fragmentShader = PixelShader->ShaderId;
-
-		Program = new ShaderProgram(vertexShader, fragmentShader);
+		Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId);
 		if (Program->Compile())
 		{
 			Program->Use();
@@ -204,24 +158,17 @@ void Scene::ShaderCompile()
 			Program = nullptr;
 		}
 
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
+		glDeleteShader(VertexShader->ShaderId);
+		glDeleteShader(PixelShader->ShaderId);
 	}
 	else
 	{
 		return;
 	}
 
-	unsigned int texture0;
-	std::string texturepath0 = path + "\\Texture\\container.jpg";
-	LoadImage(texturepath0, 0, texture0);
-
-	unsigned int texture1;
-	std::string texturepath1 = path + "\\Texture\\awesomeface.png";
-	LoadImage(texturepath1, 1, texture1);
-
-	Program->SetUniform1i("texture0", 0);
-	Program->SetUniform1i("texture1", 1);
+	delete VertexShader, PixelShader;
+	VertexShader = nullptr;
+	PixelShader = nullptr;
 }
 
 void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const

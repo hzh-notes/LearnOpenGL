@@ -52,6 +52,12 @@ public:
 
 	void SetUniform4x4(const std::string& Name, Matrix Value);
 
+	void SetUniformTexture2D(const std::string& Name, std::string TexturePath, int Index);
+
+private:
+
+	int BindImage(std::string ImagPath, int index, unsigned int& OutTexture);
+
 private:
 
 	unsigned int ShaderProgramId = -1;

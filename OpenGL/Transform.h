@@ -31,9 +31,11 @@ public:
 
 public:
 
-	Matrix GetMatrixWithScale();
+	Matrix GetMatrixWithScale() const;
 
-	Matrix GetMatrixWithoutScale();
+	Matrix GetMatrixWithoutScale() const;
+
+	Matrix GetRotationMatrix() const;
 
 public:
 	Vector3f Position;
