@@ -20,7 +20,7 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
 	ShaderCompile();
-	MainCamera = new Camera(Transform(Vector3f(-100.f, 100.f, 0.f), Vector3f(0.f, 0.f, -30.f)));
+	MainCamera = new Camera(Transform(Vector3f(-100.f, 0.f, 50.f), Vector3f(0.f, 0.f, 0.f)));
 }
 
 void Scene::Render()
@@ -42,6 +42,7 @@ void Scene::Render()
 
 			VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
 			IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
+			Material mat = mesh->GetMaterial();
 
 			//设置uniform变量
 			if (Program)
@@ -52,18 +53,17 @@ void Scene::Render()
 				Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
 				//light
-				Program->SetUniform3f("light.lightPos", Vector3f(-100.f, 100.f, 0.f));
+				Program->SetUniform3f("light.lightDir", Vector3f(-0.2f, -1.f, -0.3f));
 				Program->SetUniform3f("light.ambientStrength", Vector3f(0.1f));
 				Program->SetUniform3f("light.diffuseStrength", Vector3f(0.5f));
 				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
 
 				//material
-				Program->SetUniformTexture2D("material.diffuse", "container2.png", 0);
-				Program->SetUniformTexture2D("material.specular", "lighting_maps_specular_color.png", 1);
-				Program->SetUniform1i("material.bEmission", true);
-				Program->SetUniformTexture2D("material.emission", "matrix.jpg", 2);
-				Program->SetUniform3f("material.specular", Vector3f(0.5f));
-				Program->SetUniform1i("material.shininess", 32);
+				Program->SetUniformTexture2D("material.diffuse", mat.diffuse/*"container2.png"*/, 0);
+				Program->SetUniformTexture2D("material.specular", mat.specular/*"container2_specular.png"*/, 1);
+				Program->SetUniform1i("material.bEmission", mat.bEmission);
+				Program->SetUniformTexture2D("material.emission", mat.emission/*"matrix.jpg"*/, 2);
+				Program->SetUniform1i("material.shininess", mat.shininess);
 			}
 
 			//绑定顶点和索引
@@ -75,8 +75,6 @@ void Scene::Render()
 			//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 		}
-
-
 
 	}
 

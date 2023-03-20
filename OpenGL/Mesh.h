@@ -1,6 +1,7 @@
 #pragma once
 #include "Transform.h"
 #include "VertexBuffer.h"
+#include "Material.h"
 #include <vector>
 
 class Mesh
@@ -19,6 +20,10 @@ public:
 
 	void GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices);
 
+	Material GetMaterial();
+
+	void SetMaterial(Material InMaterial);
+
 protected:
 	virtual void InitMesh() {};
 
@@ -32,6 +37,9 @@ public:
 
 	std::vector<int> Indices;
 
+private:
+
+	Material Mat;
 };
 
 

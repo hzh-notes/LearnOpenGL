@@ -15,3 +15,13 @@ void Mesh::GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>
 		OutIndices.push_back(BaseVertexIndex + Indices[i]);
 	}
 }
+
+Material Mesh::GetMaterial()
+{
+	return Mat;
+}
+
+void Mesh::SetMaterial(Material InMaterial)
+{
+	Mat = InMaterial;
+}

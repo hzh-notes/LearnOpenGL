@@ -67,10 +67,16 @@
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>源文件\Private</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,10 +117,16 @@
       <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>头文件\Public</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
