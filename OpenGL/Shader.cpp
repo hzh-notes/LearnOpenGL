@@ -83,16 +83,28 @@ void ShaderProgram::SetUniform1i(const std::string& Name, int Value)
 	glUniform1i(Location, Value);
 }
 
-void ShaderProgram::SetUniform4f(const std::string& Name, Vector4f Value)
+void ShaderProgram::SetUniform1f(const std::string& Name, float Value)
 {
 	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
-	glUniform4f(Location, Value.X, Value.Y, Value.Z, Value.W);
+	glUniform1f(Location, Value);
+}
+
+void ShaderProgram::SetUniform2f(const std::string& Name, Vector2f Value)
+{
+	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
+	glUniform2f(Location, Value.X, Value.Y);
 }
 
 void ShaderProgram::SetUniform3f(const std::string& Name, Vector3f Value)
 {
 	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
 	glUniform3f(Location, Value.X, Value.Y, Value.Z);
+}
+
+void ShaderProgram::SetUniform4f(const std::string& Name, Vector4f Value)
+{
+	int Location = glGetUniformLocation(ShaderProgramId, Name.c_str());
+	glUniform4f(Location, Value.X, Value.Y, Value.Z, Value.W);
 }
 
 void ShaderProgram::SetUniform4x4(const std::string& Name, Matrix Value)

@@ -3,10 +3,14 @@ out vec4 FragColor;
 
 struct Light
 {
-	vec3 lightDir;
+	vec4 lightPos;
 	vec3 ambientStrength;
 	vec3 diffuseStrength;
 	vec3 specularStrength;
+	
+	float constant;
+	float linear;
+	float quadratic;
 };
 
 struct Material
@@ -33,20 +37,32 @@ void main()
 	vec2 uv = 2.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
 	vec3 diffuseColor = texture(material.diffuse, uv).rgb;
 	
+	float attenuation = 1.0;
+	
 	// ambient
-    vec3 ambient = diffuseColor * light.ambientStrength;
+    vec3 ambient = attenuation * diffuseColor * light.ambientStrength;
   	
     // diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(-light.lightDir);
+	vec3 lightDir;
+	if(light.lightPos.w == 0.)
+	{
+		lightDir = normalize(-light.lightPos.xyz);
+	}
+    else if(light.lightPos.w == 1.)
+	{
+		lightDir = normalize(light.lightPos.xyz - FragPos);
+		float distance = length(light.lightPos.xyz - FragPos);
+		attenuation /= (light.constant + light.linear * distance + light.quadratic * distance * distance);
+	}
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diffuseColor * diff * light.diffuseStrength;
+    vec3 diffuse = attenuation * diffuseColor * diff * light.diffuseStrength;
     
     // specular
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = spec * light.specularStrength;
+    vec3 specular = attenuation * spec * light.specularStrength;
 	specular *= texture(material.specular, uv).rgb;
 	
 	vec3 finalColor = min(ambient + diffuse + specular, 1.0);

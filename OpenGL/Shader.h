@@ -46,9 +46,13 @@ public:
 
 	void SetUniform1i(const std::string& Name, int Value);
 
-	void SetUniform4f(const std::string& Name, Vector4f Value);
+	void SetUniform1f(const std::string& Name, float Value);
+
+	void SetUniform2f(const std::string& Name, Vector2f Value);
 
 	void SetUniform3f(const std::string& Name, Vector3f Value);
+
+	void SetUniform4f(const std::string& Name, Vector4f Value);
 
 	void SetUniform4x4(const std::string& Name, Matrix Value);
 

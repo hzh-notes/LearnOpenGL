@@ -52,11 +52,14 @@ void Scene::Render()
 				Program->SetUniform4x4("projection", projection);
 				Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
-				//light
-				Program->SetUniform3f("light.lightDir", Vector3f(-0.2f, -1.f, -0.3f));
+				//light0.2
+				Program->SetUniform4f("light.lightPos", Vector4f(100.f, -1.f, -0.3f, 1.f));
 				Program->SetUniform3f("light.ambientStrength", Vector3f(0.1f));
 				Program->SetUniform3f("light.diffuseStrength", Vector3f(0.5f));
 				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
+				Program->SetUniform1f("light.constant", 1.f);
+				Program->SetUniform1f("light.linear", 0.007f);
+				Program->SetUniform1f("light.quadratic", 0.0002f);
 
 				//material
 				Program->SetUniformTexture2D("material.diffuse", mat.diffuse/*"container2.png"*/, 0);
@@ -130,6 +133,7 @@ int Scene::WindowInit()
 	glViewport(0, 0, 1080, 720);
 	//注册设置窗口大小的回调
 	glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
+	return 0;
 }
 
 void Scene::ShaderCompile()
