@@ -31,15 +31,12 @@ private:
 
 	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
 
-	void GatherMeshInfo(Mesh* InMesh, Matrix& OutModel);
+	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel);
 
 private:
 
 	Camera* MainCamera = nullptr;
 	std::vector<Mesh*> Meshes;
-
-	std::vector<MeshVertex> Vertices;
-	std::vector<int> Indices;
 
 	bool bRenderDataDirty = true;
 

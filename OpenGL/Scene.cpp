@@ -20,7 +20,7 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
 	ShaderCompile();
-	MainCamera = new Camera(Transform(Vector3f(-100.f, 0.f, 50.f), Vector3f(0.f, 0.f, 0.f)));
+	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 50.f), Vector3f(0.f, -10.f, 0.f)));
 }
 
 void Scene::Render()
@@ -33,52 +33,64 @@ void Scene::Render()
 	{
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
-		for (Mesh* mesh : Meshes)
+
+		if (Program)
 		{
-			Vertices.clear();
-			Indices.clear();
+			Program->SetUniform4x4("view", view);
+			Program->SetUniform4x4("projection", projection);
+			Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
-			GatherMeshInfo(mesh, model);
+			//light
+			Program->SetUniform4f("light.position", Vector4f(0.f, 0.f, 0.f, 1.f));
+			Program->SetUniform3f("light.ambient", Vector3f(0.1f));
+			Program->SetUniform3f("light.diffuse", Vector3f(0.5f));
+			Program->SetUniform3f("light.specular", Vector3f(1.f));
+			Program->SetUniform1f("light.constant", 1.f);
+			Program->SetUniform1f("light.linear", 0.0014f);
+			Program->SetUniform1f("light.quadratic", 0.000007f);
+			Program->SetUniform3f("light.direction", Vector3f(1, 0, 0));
+			Program->SetUniform1f("light.innerCutOff", cos(3.1415926f / 24.f));
+			Program->SetUniform1f("light.outerCutOff", cos(3.1415926f / 12.f));
 
-			VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
-			IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
-			Material mat = mesh->GetMaterial();
-
-			//设置uniform变量
-			if (Program)
+			for (Mesh* mesh : Meshes)
 			{
-				Program->SetUniform4x4("model", model);
-				Program->SetUniform4x4("view", view);
-				Program->SetUniform4x4("projection", projection);
-				Program->SetUniform3f("viewPos", MainCamera->transform.Position);
+				std::vector<MeshVertex> Vertices;
+				std::vector<int> Indices;
 
-				//light0.2
-				Program->SetUniform4f("light.lightPos", Vector4f(100.f, -1.f, -0.3f, 1.f));
-				Program->SetUniform3f("light.ambientStrength", Vector3f(0.1f));
-				Program->SetUniform3f("light.diffuseStrength", Vector3f(0.5f));
-				Program->SetUniform3f("light.specularStrength", Vector3f(1.f));
-				Program->SetUniform1f("light.constant", 1.f);
-				Program->SetUniform1f("light.linear", 0.007f);
-				Program->SetUniform1f("light.quadratic", 0.0002f);
+				GatherMeshInfo(mesh, Vertices, Indices, model);
+
+				VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
+				IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
+				Material mat = mesh->GetMaterial();
+
+				Program->SetUniform4x4("model", model);
 
 				//material
-				Program->SetUniformTexture2D("material.diffuse", mat.diffuse/*"container2.png"*/, 0);
-				Program->SetUniformTexture2D("material.specular", mat.specular/*"container2_specular.png"*/, 1);
+				if (!mat.diffuse.empty())
+				{
+					Program->SetUniformTexture2D("material.diffuse", mat.diffuse, 0);
+				}
+				if (!mat.specular.empty())
+				{
+					Program->SetUniformTexture2D("material.specular", mat.specular, 1);
+				}
 				Program->SetUniform1i("material.bEmission", mat.bEmission);
-				Program->SetUniformTexture2D("material.emission", mat.emission/*"matrix.jpg"*/, 2);
+				if (!mat.emission.empty())
+				{
+					Program->SetUniformTexture2D("material.emission", mat.emission, 2);
+				}
 				Program->SetUniform1i("material.shininess", mat.shininess);
+
+				//绑定顶点和索引
+				glBindVertexArray(vBuffer->BufferId);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer->BufferId);
+				//绘制模式
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				//绘制
+				//glDrawArrays(GL_TRIANGLES, 0, indices.size());
+				glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 			}
-
-			//绑定顶点和索引
-			glBindVertexArray(vBuffer->BufferId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer->BufferId);
-			//绘制模式
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			//绘制
-			//glDrawArrays(GL_TRIANGLES, 0, indices.size());
-			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 		}
-
 	}
 
 	glfwPollEvents();
@@ -141,8 +153,8 @@ void Scene::ShaderCompile()
 	char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
 	std::string path = buffer;
-	std::string vspath = path + "\\Shader\\VertexShader.txt";
-	std::string pspath = path + "\\Shader\\PixelShader.txt";
+	std::string vspath = path + "\\Shader\\VertexShader.glsl";
+	std::string pspath = path + "\\Shader\\PixelShader.glsl";
 
 	Shader* VertexShader = new Shader(vspath.c_str(), EShaderType::VertexShader);
 	Shader* PixelShader = new Shader(pspath.c_str(), EShaderType::PixelShader);
@@ -150,6 +162,7 @@ void Scene::ShaderCompile()
 	if (VertexShader->Compile() && PixelShader->Compile())
 	{
 		Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId);
+
 		if (Program->Compile())
 		{
 			Program->Use();
@@ -179,7 +192,7 @@ void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const
 	OutProjection = MainCamera->GetProjectMatrix();
 }
 
-void Scene::GatherMeshInfo(Mesh* InMesh, Matrix& OutModel)
+void Scene::GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel)
 {
 	OutModel = InMesh->MeshTransform.GetMatrixWithScale();
 	
@@ -190,5 +203,5 @@ void Scene::GatherMeshInfo(Mesh* InMesh, Matrix& OutModel)
 	Vector3f v2 = viewMatrix.TransformPosition(v1);
 	Vector3f v3 = projectMatrix.TransformPosition(v2);*/
 
-	InMesh->GetElementInfo(Vertices, Indices);
+	InMesh->GetElementInfo(OutVertices, OutIndices);
 }

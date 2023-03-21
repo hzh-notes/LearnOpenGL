@@ -24,21 +24,26 @@ int main()
 {
 	Scene* scene = new Scene();
 	
-	Mesh* cube1 = new Cube(Transform(Vector3f(150, 0, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
-	Mesh* cube2 = new Sphere(Transform(Vector3f(150, 0, 80), Vector3f(0, 0, 0), Vector3f(0.5)));
+	Mesh* cube1 = new Cube(Transform(Vector3f(150, -20, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
+	Mesh* cube2 = new Cube(Transform(Vector3f(150, 50, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
+	Mesh* sphere = new Sphere(Transform(Vector3f(0, 0, 0), Vector3f(0, 0, 0), Vector3f(0.05)));
 	scene->AddMesh(cube1);
 	scene->AddMesh(cube2);
+	scene->AddMesh(sphere);
 
-	Material mat1, mat2;
-	mat1.diffuse = "awesomeface.png";
+	Material mat1, mat2, lightMat;
+	mat1.diffuse = "container2.png";
 	mat1.specular = "container2_specular.png";
 	mat1.emission = "matrix.jpg";
-	mat2.diffuse = "awesomeface.png";
+	mat2.diffuse = "container2.png";
 	mat2.specular = "lighting_maps_specular_color.png";
 	mat2.emission = "matrix.jpg";
+	lightMat.bEmission = true;
+	lightMat.emission = "matrix.jpg";
 
 	cube1->SetMaterial(mat1);
 	cube2->SetMaterial(mat2);
+	sphere->SetMaterial(lightMat);
 	//äÖÈ¾
 	while (!scene->ShouldWindowClose())
 	{

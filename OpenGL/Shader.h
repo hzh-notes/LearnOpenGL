@@ -62,7 +62,7 @@ private:
 
 	int BindImage(std::string ImagPath, int index, unsigned int& OutTexture);
 
-private:
+public:
 
 	unsigned int ShaderProgramId = -1;
 };
