@@ -41,16 +41,21 @@ void Scene::Render()
 			Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
 			//light
-			Program->SetUniform4f("light.position", Vector4f(0.f, 0.f, 0.f, 1.f));
-			Program->SetUniform3f("light.ambient", Vector3f(0.1f));
-			Program->SetUniform3f("light.diffuse", Vector3f(0.5f));
-			Program->SetUniform3f("light.specular", Vector3f(1.f));
-			Program->SetUniform1f("light.constant", 1.f);
-			Program->SetUniform1f("light.linear", 0.0014f);
-			Program->SetUniform1f("light.quadratic", 0.000007f);
-			Program->SetUniform3f("light.direction", Vector3f(1, 0, 0));
-			Program->SetUniform1f("light.innerCutOff", cos(3.1415926f / 24.f));
-			Program->SetUniform1f("light.outerCutOff", cos(3.1415926f / 12.f));
+			Program->SetUniform3f("spotLight.position", Vector3f(0.f, 0.f, 0.f));
+			Program->SetUniform3f("spotLight.direction", Vector3f(1, 0, 0));
+			Program->SetUniform3f("spotLight.ambient", Vector3f(0.1f));
+			Program->SetUniform3f("spotLight.diffuse", Vector3f(0.5f));
+			Program->SetUniform3f("spotLight.specular", Vector3f(1.f));
+			Program->SetUniform1f("spotLight.constant", 1.f);
+			Program->SetUniform1f("spotLight.linear", 0.0014f);
+			Program->SetUniform1f("spotLight.quadratic", 0.000007f);
+			Program->SetUniform1f("spotLight.innerCutOff", cos(3.1415926f / 24.f));
+			Program->SetUniform1f("spotLight.outerCutOff", cos(3.1415926f / 12.f));
+
+			Program->SetUniform3f("dirLight.direction", Vector3f(0.f, -1.f, 0.f));
+			Program->SetUniform3f("dirLight.ambient", Vector3f(0.1f));
+			Program->SetUniform3f("dirLight.diffuse", Vector3f(0.5f));
+			Program->SetUniform3f("dirLight.specular", Vector3f(1.f));
 
 			for (Mesh* mesh : Meshes)
 			{

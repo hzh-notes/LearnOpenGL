@@ -49,7 +49,8 @@ struct Material
 };
 
 uniform vec3 viewPos;
-uniform SpotLight light;
+uniform DirectionLight dirLight;
+uniform SpotLight spotLight;
 uniform Material material;
 
 in vec4 VertexColor;
@@ -137,7 +138,8 @@ void main()
 	{
 		vec3 norm = normalize(Normal);
 		vec3 viewDir = normalize(viewPos - FragPos);
-		finalColor = CalcSpotLight(light, norm, FragPos, viewDir, uv);
+		finalColor += CalcDirLight(dirLight, norm, viewDir, uv);
+		finalColor += CalcSpotLight(spotLight, norm, FragPos, viewDir, uv);
 	}
 	
 	FragColor = vec4(finalColor, 1.0);
