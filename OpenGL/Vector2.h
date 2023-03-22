@@ -32,12 +32,15 @@ public:
 
 	T operator^(const TVector2<T>& Orther) const;
 
+	bool operator==(const TVector2<T>& Orther) const;
+
+	bool operator!=(const TVector2<T>& Orther) const;
+
 public:
 
 	T X;
 	T Y;
 };
-
 
 typedef TVector2<float> Vector2f;
 typedef TVector2<double> Vector2d;

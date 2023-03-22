@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
@@ -28,6 +26,15 @@ void Scene::Render()
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//更新鼠标位置
+	glfwSetCursorPosCallback(Window, [](GLFWwindow* window, double xpos, double ypos) 
+		{
+			glfwSetCursorPos(window, xpos, ypos); 
+		}
+	);
+	
+	CheckMouseState();
 
 	if (bRenderDataDirty)
 	{
@@ -102,6 +109,66 @@ void Scene::Render()
 	glfwSwapBuffers(Window);
 }
 
+void Scene::CheckMouseState()
+{
+	MouseState = EMouseState::None;
+
+	int LeftMouse = glfwGetMouseButton(Window, GLFW_MOUSE_BUTTON_LEFT);
+	if (LeftMouse)
+	{
+		if (LeftMouse == GLFW_PRESS)
+		{
+			MouseState = EMouseState::Pressed_Left;
+		}
+		else
+		{
+			MouseState = EMouseState::Released_Left;
+		}
+	}
+	
+	int RightMouse = glfwGetMouseButton(Window, GLFW_MOUSE_BUTTON_RIGHT);
+	if (RightMouse)
+	{
+		if (RightMouse == GLFW_PRESS)
+		{
+			MouseState = EMouseState::Pressed_Right;
+		}
+		else
+		{
+			MouseState = EMouseState::Released_Right;
+		}
+	}
+
+	Vector2f CurMousePos = GetMousePos();
+
+	if (LastMousePos != CurMousePos)
+	{
+		HandleMouseMove();
+	}
+	LastMousePos = CurMousePos;
+}
+
+void Scene::HandleMouseMove()
+{
+	if (MouseState == EMouseState::Pressed_Right)
+	{
+		Vector2f CurMousePos = GetMousePos();
+
+		float Yaw = (CurMousePos.X - LastMousePos.X) / 30.f;
+		float Pitch = (CurMousePos.Y - LastMousePos.Y) / 20.f;
+
+		MainCamera->transform.Rotation.Y += Pitch;
+		MainCamera->transform.Rotation.Z += Yaw;
+
+	}
+}
+
+void Scene::HandleMouseRightPressed()
+{
+	Vector2f MousePos = GetMousePos();
+	
+}
+
 void Scene::Release()
 {
 	//释放资源
@@ -119,6 +186,18 @@ void Scene::AddMesh(Mesh* NewMesh)
 int Scene::ShouldWindowClose()
 {
 	return glfwWindowShouldClose(Window);
+}
+
+
+Vector2f Scene::GetMousePos()
+{
+	double x;
+	double y;
+	glfwGetCursorPos(Window, &x, &y);
+
+	//std::cout << "x :" << x << ", y :" << y << std::endl;
+
+	return Vector2f(x, y);
 }
 
 int Scene::WindowInit()

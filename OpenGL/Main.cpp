@@ -3,7 +3,6 @@
 #include "Cube.h"
 #include "Sphere.h"
 #include "Scene.h"
-#include "GLFW/glfw3.h"
 using namespace std;
 
 

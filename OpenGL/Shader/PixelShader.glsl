@@ -126,7 +126,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec
 
 void main()
 {
-	vec2 uv = 1.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
+	vec2 uv = 2.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
 	
 	vec3 finalColor;
 	if(material.bEmission)

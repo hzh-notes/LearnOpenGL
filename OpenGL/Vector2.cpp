@@ -39,3 +39,15 @@ T TVector2<T>::operator^(const TVector2<T>& Orther) const
 {
 	return X * Orther.Y - Y * Orther.X;
 }
+
+template <typename T>
+bool TVector2<T>::operator==(const TVector2<T>& Orther) const
+{
+	return (X == Orther.X && Y == Orther.Y);
+}
+
+template <typename T>
+bool TVector2<T>::operator!=(const TVector2<T>& Orther) const
+{
+	return (X != Orther.X || Y != Orther.Y);
+}
