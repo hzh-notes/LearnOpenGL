@@ -19,8 +19,9 @@ Scene::Scene()
 	//开启深度检测
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
-	ShaderCompile();
+	ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
 	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 0.f), Vector3f(0.f, 0.f, 0.f)));
+
 }
 
 void Scene::Render()
@@ -45,8 +46,12 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
+		ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(0);
+
 		if (Program)
 		{
+			Program->Use();
+
 			Program->SetUniform4x4("view", view);
 			Program->SetUniform4x4("projection", projection);
 			Program->SetUniform3f("viewPos", MainCamera->transform.Position);
@@ -212,8 +217,7 @@ void Scene::CheckKeyboardState()
 void Scene::Release()
 {
 	//释放资源
-	delete Program, MainCamera;
-	Program = nullptr;
+	delete MainCamera, Programs;
 	MainCamera = nullptr;
 	glfwTerminate();
 }
@@ -227,7 +231,6 @@ int Scene::ShouldWindowClose()
 {
 	return glfwWindowShouldClose(Window);
 }
-
 
 Vector2f Scene::GetMousePos()
 {
@@ -270,44 +273,6 @@ int Scene::WindowInit()
 	//注册设置窗口大小的回调
 	glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 	return 0;
-}
-
-void Scene::ShaderCompile()
-{
-	char buffer[MAX_PATH];
-	_getcwd(buffer, MAX_PATH);
-	std::string path = buffer;
-	std::string vspath = path + "\\Shader\\VertexShader.glsl";
-	std::string pspath = path + "\\Shader\\PixelShader.glsl";
-
-	Shader* VertexShader = new Shader(vspath.c_str(), EShaderType::VertexShader);
-	Shader* PixelShader = new Shader(pspath.c_str(), EShaderType::PixelShader);
-
-	if (VertexShader->Compile() && PixelShader->Compile())
-	{
-		Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId);
-
-		if (Program->Compile())
-		{
-			Program->Use();
-		}
-		else
-		{
-			delete Program;
-			Program = nullptr;
-		}
-
-		glDeleteShader(VertexShader->ShaderId);
-		glDeleteShader(PixelShader->ShaderId);
-	}
-	else
-	{
-		return;
-	}
-
-	delete VertexShader, PixelShader;
-	VertexShader = nullptr;
-	PixelShader = nullptr;
 }
 
 void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const

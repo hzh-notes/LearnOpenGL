@@ -5,6 +5,7 @@
 
 #include "glad/glad.h"
 #include <string>
+#include <map>
 #include "Vector.h"
 #include "Matrix.h"
 
@@ -44,6 +45,8 @@ public:
 
 	void Use();
 
+	void LoadSkyCubeMap();
+
 	void SetUniform1i(const std::string& Name, int Value);
 
 	void SetUniform1f(const std::string& Name, float Value);
@@ -67,5 +70,26 @@ public:
 	unsigned int ShaderProgramId = -1;
 };
 
+class ShaderProgramMap
+{
+private:
+	ShaderProgramMap() {}
+
+public:
+
+	static ShaderProgramMap* GetInstance();
+
+	void AddShaderProgram(std::string VS, std::string PS);
+
+	ShaderProgram* GetByKey(int Key);
+
+private:
+
+	int Count = 0;
+	std::map<int, ShaderProgram*> Programs;
+
+};
+
+static ShaderProgramMap* _Instance = nullptr;
 
 #endif

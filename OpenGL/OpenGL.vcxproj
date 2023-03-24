@@ -158,6 +158,7 @@
     <ClCompile Include="Quat.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stb_imagecpp.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Quat.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Transform.h" />

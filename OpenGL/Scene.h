@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include <vector>
+#include <map>
 
 enum class EMouseState
 {
@@ -46,8 +47,6 @@ public:
 private:
 	int WindowInit();
 
-	void ShaderCompile();
-
 	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
 
 	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel);
@@ -60,10 +59,13 @@ private:
 	bool bRenderDataDirty = true;
 
 	GLFWwindow* Window = nullptr;
-	ShaderProgram* Program = nullptr;
+
+	std::map<int, ShaderProgram*> Programs;
 
 	Vector2f LastMousePos;
 	EMouseState MouseState;
+
+	
 };
 
 #endif

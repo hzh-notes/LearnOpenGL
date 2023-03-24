@@ -81,6 +81,9 @@
     <ClCompile Include="Quat.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -135,6 +138,9 @@
       <Filter>头文件\Public</Filter>
     </ClInclude>
     <ClInclude Include="Macro.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
