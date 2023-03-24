@@ -3,7 +3,7 @@
 Matrix Transform::GetMatrixWithScale() const
 {
 	Matrix TranslateMat = Matrix::Translate(Position);
-	Matrix RotateMat = Matrix::Rotate(Rotation);
+	Matrix RotateMat = Rotation.ToMatrix();
 	Matrix ScaleMat = Matrix::Scale(Scale3D);
 
 	return ScaleMat * RotateMat * TranslateMat;
@@ -12,12 +12,22 @@ Matrix Transform::GetMatrixWithScale() const
 Matrix Transform::GetMatrixWithoutScale() const
 {
 	Matrix TranslateMat = Matrix::Translate(Position);
-	Matrix RotateMat = Matrix::Rotate(Rotation);
+	Matrix RotateMat = Rotation.ToMatrix();
 
-	return RotateMat * TranslateMat;
+	return  RotateMat * TranslateMat;
 }
 
 Matrix Transform::GetRotationMatrix() const
 {
-	return Matrix::Rotate(Rotation);
+	return Rotation.ToMatrix();
+}
+
+Vector3f Transform::TransformPosition(Vector3f V) const
+{
+	return GetMatrixWithScale().TransformPosition(V);
+}
+
+Vector4f Transform::TransformVector4f(Vector4f V) const
+{
+	return GetMatrixWithScale().TransformVector4f(V);
 }

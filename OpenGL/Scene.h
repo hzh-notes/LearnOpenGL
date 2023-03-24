@@ -33,6 +33,8 @@ public:
 
 	void HandleMouseRightPressed();
 
+	void CheckKeyboardState();
+
 	void Release();
 
 	void AddMesh(Mesh* NewMesh);

@@ -17,6 +17,10 @@ public:
 
 	Matrix operator*(const Matrix& Other) const;
 
+	float Determinant() const;
+
+	Matrix Inverse() const;
+
 	Vector4f Row(int RowNum) const;
 
 	Vector4f Column(int ColumnNum) const;
@@ -24,6 +28,8 @@ public:
 	Vector3f TransformPosition(const Vector3f& V) const;
 
 	Vector4f TransformVector4f(const Vector4f& V) const;
+
+	Vector4f InverseTransformVector4f(const Vector4f& V) const;
 	
 	static Matrix Indentity();
 

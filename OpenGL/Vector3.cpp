@@ -24,6 +24,12 @@ TVector<T> TVector<T>::operator*(const TVector<T>& Orther) const
 }
 
 template <typename T>
+TVector<T> TVector<T>::operator*(const T Value) const
+{
+	return TVector<T>(X * Value, Y * Value, Z * Value);
+}
+
+template <typename T>
 TVector<T> TVector<T>::operator/(const TVector<T>& Orther) const
 {
 	return TVector(X / Orther.X, Y / Orther.Y, Z / Orther.Z);
@@ -48,6 +54,16 @@ TVector<T> TVector<T>::operator^(const TVector<T>& Orther) const
 		Y * Orther.Z - Z * Orther.Y,
 		Z * Orther.X - X * Orther.Z,
 		X * Orther.Y - Y * Orther.X);
+}
+
+template <typename T>
+TVector<T> TVector<T>::operator+=(const TVector<T>& Orther)
+{
+	X += Orther.X;
+	Y += Orther.Y;
+	Z += Orther.Z;
+
+	return *this;
 }
 
 template <typename T>

@@ -27,11 +27,15 @@ public:
 
 	TVector<T> operator*(const TVector<T>& Orther) const;
 
+	TVector<T> operator*(const T Value) const;
+
 	TVector<T> operator/(const TVector<T>& Orther) const;
 
 	TVector<T> operator/(T Value) const;
 
 	T operator|(const TVector<T>& Orther) const;
+
+	TVector<T> operator+=(const TVector<T>& Orther);
 
 	TVector<T> operator^(const TVector<T>& Orther) const;
 

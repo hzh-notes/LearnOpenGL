@@ -1,8 +1,5 @@
 #include "Sphere.h"
-
-constexpr double PI = 3.1415926535;
-
-#define DegreeToRadian(X) X * PI / 180.
+#include "Macro.h"
 
 void Sphere::InitMesh()
 {

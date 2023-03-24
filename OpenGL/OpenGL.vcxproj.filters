@@ -78,6 +78,9 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="Quat.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -127,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>头文件\Public\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Quat.h">
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

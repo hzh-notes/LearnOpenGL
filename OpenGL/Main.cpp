@@ -50,8 +50,8 @@ int main()
 
 #pragma region Rendering
 
-		cube1->MeshTransform.Rotation.Z = glfwGetTime() * 10.f;
-		cube2->MeshTransform.Rotation.Z = glfwGetTime() * 20.f;
+		/*cube1->MeshTransform.Rotation.Z = glfwGetTime() * 10.f;
+		cube2->MeshTransform.Rotation.Z = glfwGetTime() * 20.f;*/
 		scene->Render();
 #pragma endregion
 

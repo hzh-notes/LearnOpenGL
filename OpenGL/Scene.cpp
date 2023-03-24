@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "Quat.h"
+#include "Macro.h"
 
 #include <iostream>
 #include <direct.h>
@@ -18,7 +20,7 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	//±àÒë×ÅÉ«Æ÷
 	ShaderCompile();
-	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 50.f), Vector3f(0.f, -10.f, 0.f)));
+	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 0.f), Vector3f(0.f, 0.f, 0.f)));
 }
 
 void Scene::Render()
@@ -35,6 +37,8 @@ void Scene::Render()
 	);
 	
 	CheckMouseState();
+
+	CheckKeyboardState();
 
 	if (bRenderDataDirty)
 	{
@@ -154,12 +158,16 @@ void Scene::HandleMouseMove()
 	{
 		Vector2f CurMousePos = GetMousePos();
 
-		float Yaw = (CurMousePos.X - LastMousePos.X) / 30.f;
-		float Pitch = (CurMousePos.Y - LastMousePos.Y) / 20.f;
+		Quat4f PreQuat = MainCamera->transform.Rotation;
 
-		MainCamera->transform.Rotation.Y += Pitch;
-		MainCamera->transform.Rotation.Z += Yaw;
+		float Pitch = (CurMousePos.Y - LastMousePos.Y) / 10.f;
+		float Yaw = (CurMousePos.X - LastMousePos.X) / 20.f;
 
+		Vector3f CurAxisY = MainCamera->transform.TransformVector4f(Vector3f(0.f, -1.f, 0.f));
+		Quat4f QuatPitch = Quat4f(CurAxisY, DegreeToRadian(Pitch));
+		Quat4f QuatYaw = Quat4f(Vector3f(0.f, 0.f, -1.f), DegreeToRadian(Yaw));
+
+		MainCamera->transform.Rotation = PreQuat * QuatPitch * QuatYaw;
 	}
 }
 
@@ -167,6 +175,38 @@ void Scene::HandleMouseRightPressed()
 {
 	Vector2f MousePos = GetMousePos();
 	
+}
+
+void Scene::CheckKeyboardState()
+{
+	if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(Window, true);
+	}
+	else if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		Vector3f Forward = MainCamera->transform.TransformVector4f(Vector3f(1.f, 0.f, 0.f));
+
+		MainCamera->transform.Position += Forward.Normalize() * 20.f;
+	}
+	else if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		Vector3f Left = MainCamera->transform.TransformVector4f(Vector3f(0.f, -1.f, 0.f));
+
+		MainCamera->transform.Position += Left.Normalize() * 20.f;
+	}
+	else if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		Vector3f Back = MainCamera->transform.TransformVector4f(Vector3f(-1.f, 0.f, 0.f));
+
+		MainCamera->transform.Position += Back.Normalize() * 20.f;
+	}
+	else if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		Vector3f Right = MainCamera->transform.TransformVector4f(Vector3f(0.f, 1.f, 0.f));
+
+		MainCamera->transform.Position += Right.Normalize() * 20.f;
+	}
 }
 
 void Scene::Release()
