@@ -79,13 +79,12 @@ public:
 
 	static ShaderProgramMap* GetInstance();
 
-	void AddShaderProgram(std::string VS, std::string PS);
+	void AddShaderProgram(int Index, std::string VS, std::string PS);
 
 	ShaderProgram* GetByKey(int Key);
 
 private:
 
-	int Count = 0;
 	std::map<int, ShaderProgram*> Programs;
 
 };

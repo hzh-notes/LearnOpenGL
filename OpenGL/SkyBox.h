@@ -14,6 +14,7 @@ class SkyBox
 public:
 
 	SkyBox();
+	~SkyBox();
 
 	void Render(Matrix View, Matrix Projection);
 

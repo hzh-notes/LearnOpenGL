@@ -221,7 +221,7 @@ ShaderProgramMap* ShaderProgramMap::GetInstance()
 	return _Instance;
 }
 
-void ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS)
+void ShaderProgramMap::AddShaderProgram(int Index, std::string VS, std::string PS)
 {
 	char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
@@ -241,8 +241,7 @@ void ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS)
 		{
 			Program->Use();
 
-			Programs.try_emplace(Count, Program);
-			Count++;
+			Programs.try_emplace(Index, Program);
 		}
 		else
 		{

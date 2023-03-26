@@ -25,7 +25,7 @@ int main()
 	
 	Mesh* cube1 = new Cube(Transform(Vector3f(150, -20, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
 	Mesh* cube2 = new Cube(Transform(Vector3f(150, 50, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
-	Mesh* sphere = new Sphere(Transform(Vector3f(0, 0, 0), Vector3f(0, 0, 0), Vector3f(0.05)));
+	Mesh* sphere = new Sphere(Transform(Vector3f(0, 0, 100), Vector3f(0, 0, 0), Vector3f(0.05)));
 	scene->AddMesh(cube1);
 	scene->AddMesh(cube2);
 	scene->AddMesh(sphere);
@@ -35,7 +35,7 @@ int main()
 	mat1.specular = "container2_specular.png";
 	mat1.emission = "matrix.jpg";
 	mat2.diffuse = "container2.png";
-	mat2.specular = "lighting_maps_specular_color.png";
+	mat2.specular = "container2_specular.png";
 	mat2.emission = "matrix.jpg";
 	lightMat.bEmission = true;
 	lightMat.emission = "matrix.jpg";

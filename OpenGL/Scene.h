@@ -8,8 +8,9 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "SkyBox.h"
+
 #include <vector>
-#include <map>
 
 enum class EMouseState
 {
@@ -60,12 +61,10 @@ private:
 
 	GLFWwindow* Window = nullptr;
 
-	std::map<int, ShaderProgram*> Programs;
-
 	Vector2f LastMousePos;
 	EMouseState MouseState;
 
-	
+	SkyBox* Sky = nullptr;
 };
 
 #endif

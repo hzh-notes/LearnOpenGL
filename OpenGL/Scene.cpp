@@ -19,9 +19,9 @@ Scene::Scene()
 	//开启深度检测
 	glEnable(GL_DEPTH_TEST);
 	//编译着色器
-	ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
+	ShaderProgramMap::GetInstance()->AddShaderProgram(0, "\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
 	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 0.f), Vector3f(0.f, 0.f, 0.f)));
-
+	Sky = new SkyBox();
 }
 
 void Scene::Render()
@@ -46,6 +46,8 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
+		Sky->Render(view, projection);
+
 		ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(0);
 
 		if (Program)
@@ -57,8 +59,8 @@ void Scene::Render()
 			Program->SetUniform3f("viewPos", MainCamera->transform.Position);
 
 			//light
-			Program->SetUniform3f("spotLight.position", Vector3f(0.f, 0.f, 0.f));
-			Program->SetUniform3f("spotLight.direction", Vector3f(1, 0, 0));
+			Program->SetUniform3f("spotLight.position", Vector3f(0.f, 0.f, 100.f));
+			Program->SetUniform3f("spotLight.direction", Vector3f(0.86, 0, -0.5));
 			Program->SetUniform3f("spotLight.ambient", Vector3f(0.1f));
 			Program->SetUniform3f("spotLight.diffuse", Vector3f(0.5f));
 			Program->SetUniform3f("spotLight.specular", Vector3f(1.f));
@@ -217,7 +219,7 @@ void Scene::CheckKeyboardState()
 void Scene::Release()
 {
 	//释放资源
-	delete MainCamera, Programs;
+	delete MainCamera;
 	MainCamera = nullptr;
 	glfwTerminate();
 }
