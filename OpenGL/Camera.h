@@ -4,7 +4,6 @@
 #define __CAMERA
 
 #include "Transform.h"
-#include "Vector.h"
 #include "Matrix.h"
 
 class Camera

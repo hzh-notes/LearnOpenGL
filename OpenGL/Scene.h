@@ -6,8 +6,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Camera.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "MeshRenderer.h"
 #include "SkyBox.h"
 
 #include <vector>
@@ -49,9 +48,6 @@ private:
 	int WindowInit();
 
 	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
-
-	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel);
-
 private:
 
 	Camera* MainCamera = nullptr;
@@ -65,6 +61,8 @@ private:
 	EMouseState MouseState;
 
 	SkyBox* Sky = nullptr;
+
+	MeshRenderer* MeshRender = nullptr;
 };
 
 #endif
