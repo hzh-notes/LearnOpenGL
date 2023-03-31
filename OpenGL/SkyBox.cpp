@@ -23,6 +23,7 @@ void SkyBox::Render(Matrix View, Matrix Projection)
 	glDepthMask(GL_FALSE);
 	glDepthFunc(GL_LEQUAL);
 
+	glFrontFace(GL_CW);
 	ShaderProgram* SkyProgram = ShaderProgramMap::GetInstance()->GetByKey(0);
 	SkyProgram->Use();
 
@@ -52,5 +53,9 @@ void SkyBox::Render(Matrix View, Matrix Projection)
 	glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
 	glDepthMask(GL_TRUE);
+
+	delete iBuffer, vBuffer;
+	iBuffer = nullptr;
+	vBuffer = nullptr;
 }
 

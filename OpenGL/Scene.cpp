@@ -41,6 +41,8 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
+		glEnable(GL_CULL_FACE);
+
 		Sky->Render(view, projection);
 
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
@@ -183,6 +185,8 @@ int Scene::WindowInit()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//初始化窗口
@@ -201,7 +205,8 @@ int Scene::WindowInit()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
-
+	//启用多重采样
+	glEnable(GL_MULTISAMPLE);
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
 	//注册设置窗口大小的回调

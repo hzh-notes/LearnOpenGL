@@ -20,9 +20,9 @@ public:
 
 	void GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices);
 
-	Material GetMaterial();
+	Material* GetMaterial();
 
-	void SetMaterial(Material InMaterial);
+	void SetMaterial(Material* InMaterial);
 
 protected:
 	virtual void InitMesh() {};
@@ -39,7 +39,7 @@ public:
 
 private:
 
-	Material Mat;
+	Material* Mat;
 };
 
 

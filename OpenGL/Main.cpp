@@ -1,6 +1,7 @@
 #include "Vector.h"
 
 #include "Cube.h"
+#include "Plane.h"
 #include "Sphere.h"
 #include "Scene.h"
 using namespace std;
@@ -26,23 +27,32 @@ int main()
 	Mesh* cube1 = new Cube(Transform(Vector3f(150, -20, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
 	Mesh* cube2 = new Cube(Transform(Vector3f(150, 50, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
 	Mesh* sphere = new Sphere(Transform(Vector3f(0, 0, 100), Vector3f(0, 0, 0), Vector3f(0.05)));
+	Mesh* floor = new Plane(Transform(Vector3f(0, 0, -150), Vector3f(0), Vector3f(10)));
+
+	Material* Mat0 = new Material(0);
+	Mat0->SetTextureParam("container2.png", ETextureCategory::Diffuse);
+	Mat0->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
+	Mat0->Compile();
+
+	Material* lightMat = new Material(1);
+	lightMat->SetTextureParam("matrix.jpg", ETextureCategory::Emission);
+	lightMat->Compile();
+
+	Material* floorMat = new Material(2);
+	floorMat->SetTextureParam("floor.jpg", ETextureCategory::Diffuse);
+	floorMat->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
+	floorMat->Compile();
+
+	cube1->SetMaterial(Mat0);
+	cube2->SetMaterial(Mat0);
+	sphere->SetMaterial(lightMat);
+	floor->SetMaterial(floorMat);
+
 	scene->AddMesh(cube1);
 	scene->AddMesh(cube2);
 	scene->AddMesh(sphere);
+	scene->AddMesh(floor);
 
-	Material mat1, mat2, lightMat;
-	mat1.diffuse = "container2.png";
-	mat1.specular = "container2_specular.png";
-	mat1.emission = "matrix.jpg";
-	mat2.diffuse = "container2.png";
-	mat2.specular = "container2_specular.png";
-	mat2.emission = "matrix.jpg";
-	lightMat.bEmission = true;
-	lightMat.emission = "matrix.jpg";
-
-	cube1->SetMaterial(mat1);
-	cube2->SetMaterial(mat2);
-	sphere->SetMaterial(lightMat);
 	//äÖÈ¾
 	while (!scene->ShouldWindowClose())
 	{

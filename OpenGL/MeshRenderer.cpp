@@ -12,6 +12,7 @@ MeshRenderer::MeshRenderer()
 
 void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos)
 {
+	glFrontFace(GL_CCW);
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(1);
 
 	if (Program)
@@ -49,25 +50,28 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 
 			VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
 			IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
-			Material mat = mesh->GetMaterial();
+			Material* mat = mesh->GetMaterial();
 
 			Program->SetUniform4x4("model", model);
 
 			//material
-			if (!mat.diffuse.empty())
+			int DiffuseId = mat->GetTextureIdByCategory(ETextureCategory::Diffuse);
+			if (DiffuseId != -1)
 			{
-				Program->SetUniformTexture2D("material.diffuse", mat.diffuse, 0);
+				Program->SetUniformTexture2D("material.diffuse", DiffuseId);
 			}
-			if (!mat.specular.empty())
+			int SpecularId = mat->GetTextureIdByCategory(ETextureCategory::Specular);
+			if (SpecularId != -1)
 			{
-				Program->SetUniformTexture2D("material.specular", mat.specular, 1);
+				Program->SetUniformTexture2D("material.specular", SpecularId);
 			}
-			Program->SetUniform1i("material.bEmission", mat.bEmission);
-			if (!mat.emission.empty())
+			int EmissionId = mat->GetTextureIdByCategory(ETextureCategory::Emission);
+			if (EmissionId != -1)
 			{
-				Program->SetUniformTexture2D("material.emission", mat.emission, 2);
+				Program->SetUniformTexture2D("material.emission", EmissionId);
 			}
-			Program->SetUniform1i("material.shininess", mat.shininess);
+			
+			Program->SetUniform1i("material.shininess", mat->shininess);
 
 			//绑定顶点和索引
 			glBindVertexArray(vBuffer->BufferId);
@@ -77,6 +81,10 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 			//绘制
 			//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 			glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+
+			delete iBuffer, vBuffer;
+			iBuffer = nullptr;
+			vBuffer = nullptr;
 		}
 	}
 }

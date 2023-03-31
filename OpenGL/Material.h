@@ -4,14 +4,45 @@
 #define __MATERIAL_H
 
 #include <string>
+#include <map>
 
-struct Material
+enum class ETextureCategory
 {
-	std::string diffuse;
-	std::string specular;
+	Diffuse,
+	Specular,
+	Emission,
+};
+
+struct TextureParam
+{
+	int Id = -1;
+	std::string Path;
+	ETextureCategory Category;
+};
+
+class Material
+{
+public:
+	Material(int InID);
+
+	bool Compile();
+
+	void SetTextureParam(std::string Path, ETextureCategory Category);
+
+	int GetTextureIdByCategory(ETextureCategory Category);
+
+private:
+
+	int BindImage(std::string ImagPath, int index, unsigned int& OutTexture);
+
+public:
 	bool bEmission = false;
-	std::string emission;
 	int shininess = 32;
+
+private:
+	int Id = 0;
+
+	std::map<ETextureCategory, TextureParam> Textures;
 };
 #endif // !__MATERIAL_H
 

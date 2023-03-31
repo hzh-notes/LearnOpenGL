@@ -59,7 +59,7 @@ public:
 
 	void SetUniform4x4(const std::string& Name, Matrix Value);
 
-	void SetUniformTexture2D(const std::string& Name, std::string TexturePath, int Index);
+	void SetUniformTexture2D(const std::string& Name, int Index);
 
 private:
 

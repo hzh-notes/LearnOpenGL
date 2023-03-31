@@ -163,15 +163,15 @@ void ShaderProgram::SetUniform4x4(const std::string& Name, Matrix Value)
 	glUniformMatrix4fv(Location, 1, GL_FALSE, Value.M);
 }
 
-void ShaderProgram::SetUniformTexture2D(const std::string& Name, std::string TextureName, int Index)
+void ShaderProgram::SetUniformTexture2D(const std::string& Name, int Index)
 {
-	char buffer[MAX_PATH];
+	/*char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
 	std::string path = buffer;
 
 	unsigned int texture;
 	std::string texturePath = path + "\\Texture\\" + TextureName;
-	BindImage(texturePath, Index, texture);
+	BindImage(texturePath, Index, texture);*/
 
 	SetUniform1i(Name, Index);
 }

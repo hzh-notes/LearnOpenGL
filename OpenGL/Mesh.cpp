@@ -16,12 +16,12 @@ void Mesh::GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>
 	}
 }
 
-Material Mesh::GetMaterial()
+Material* Mesh::GetMaterial()
 {
 	return Mat;
 }
 
-void Mesh::SetMaterial(Material InMaterial)
+void Mesh::SetMaterial(Material* InMaterial)
 {
 	Mat = InMaterial;
 }

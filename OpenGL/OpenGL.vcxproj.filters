@@ -87,6 +87,9 @@
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>源文件\Private\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

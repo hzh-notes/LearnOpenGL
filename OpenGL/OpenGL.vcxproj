@@ -156,6 +156,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Quat.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Quat.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
