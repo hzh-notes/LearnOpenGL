@@ -18,6 +18,8 @@ public:
 		InitMesh();
 	}
 
+	~Mesh();
+
 	void GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices);
 
 	Material* GetMaterial();
