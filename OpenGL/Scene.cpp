@@ -19,6 +19,11 @@ Scene::Scene()
 	MeshRender = new MeshRenderer();
 }
 
+Scene::~Scene()
+{
+	Release();
+}
+
 void Scene::Render()
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -186,6 +191,7 @@ int Scene::WindowInit()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	//设置采样缓冲样本数
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
@@ -211,6 +217,9 @@ int Scene::WindowInit()
 	glViewport(0, 0, 1080, 720);
 	//注册设置窗口大小的回调
 	glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	return 0;
 }
 

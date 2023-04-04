@@ -41,10 +41,12 @@ struct SpotLight
 
 struct Material
 {
-	sampler2D diffuse;
-	sampler2D specular;
-	sampler2D emission;
-	bool bEmission;
+	int diffuse;
+	sampler2D diffuseSampler;
+	int specular;
+	sampler2D specularSampler;
+	int emission;
+	sampler2D emissionSampler;
 	int shininess;
 };
 
@@ -61,7 +63,7 @@ in vec3 FragPos;
 
 out vec4 FragColor;
 
-vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec2 uv)
+vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
 {
 	vec3 lightDir = normalize(-light.direction);
     // 漫反射着色
@@ -70,13 +72,13 @@ vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec2 uv)
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // 合并结果
-    vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, uv));
-    vec3 diffuse  = light.diffuse  * diff * vec3(texture(material.diffuse, uv));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, uv));
+    vec3 ambient  = light.ambient  * diffuseColor;
+    vec3 diffuse  = light.diffuse  * diff * diffuseColor;
+    vec3 specular = light.specular * spec * specularColor;
     return (ambient + diffuse + specular);
 }
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec2 uv)
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
 {
 	vec3 lightDir = normalize(light.position - fragPos);
     // 漫反射着色
@@ -89,16 +91,16 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
     float attenuation = 1.0 / (light.constant + light.linear * distance + 
                  light.quadratic * (distance * distance));    
     // 合并结果
-    vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, uv));
-    vec3 diffuse  = light.diffuse  * diff * vec3(texture(material.diffuse, uv));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, uv));
+    vec3 ambient  = light.ambient  * diffuseColor;
+    vec3 diffuse  = light.diffuse  * diff * diffuseColor;
+    vec3 specular = light.specular * spec * specularColor;
     //ambient  *= attenuation;
     diffuse  *= attenuation;
     specular *= attenuation;
     return (ambient + diffuse + specular);
 }
 
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec2 uv)
+vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
 {
 	vec3 lightDir = normalize(light.position - fragPos);
     // 漫反射着色
@@ -115,9 +117,9 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec
 	float intensity= clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 	
 	// 合并结果
-    vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, uv));
-    vec3 diffuse  = light.diffuse  * diff * vec3(texture(material.diffuse, uv));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, uv));
+    vec3 ambient  = light.ambient  * diffuseColor;
+    vec3 diffuse  = light.diffuse  * diff * diffuseColor;
+    vec3 specular = light.specular * spec * specularColor;
 	diffuse *= 1.0 * intensity;
 	specular *= 1.0 * intensity;
 	
@@ -126,22 +128,30 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec
 
 void main()
 {
-	vec2 uv = 2.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
+	vec2 uv = 1.0f * vec2(TexCoord.x, 1.0 - TexCoord.y);
 	
-	vec3 finalColor;
-	if(material.bEmission)
+	vec4 finalColor;
+	if(material.emission == 1)
 	{
-		vec3 emissionColor = texture(material.emission, uv).rgb;
-		finalColor = vec3(100,1,1);//emissionColor;
+		vec3 emissionColor = texture(material.emissionSampler, uv).rgb;
+		finalColor = vec4(1.0);//emissionColor;
 	}
 	else
 	{
 		vec3 norm = normalize(Normal);
 		vec3 viewDir = normalize(viewPos - FragPos);
-		finalColor += CalcDirLight(dirLight, norm, viewDir, uv);
-		finalColor += CalcSpotLight(spotLight, norm, FragPos, viewDir, uv);
+		
+		vec4 baseColor = texture(material.diffuseSampler, uv);
+		
+		vec3 diffuse = mix(vec3(1.0), baseColor.rgb, material.diffuse);
+		
+		vec3 specular = mix(vec3(1.0), texture(material.specularSampler, uv).rgb, material.specular);
+		
+		finalColor.rgb += CalcDirLight(dirLight, norm, viewDir, diffuse, specular);
+		finalColor.rgb += CalcSpotLight(spotLight, norm, FragPos, viewDir, diffuse, specular);
+		finalColor.a = baseColor.a;
 	}
 	
-	FragColor = vec4(finalColor, 1.0);
+	FragColor = finalColor;
 
 }

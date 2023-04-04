@@ -2,8 +2,7 @@
 
 Mesh::~Mesh()
 {
-	delete Mat;
-	Mat = nullptr;
+
 }
 
 void Mesh::GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices)

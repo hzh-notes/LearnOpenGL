@@ -24,7 +24,7 @@ class Scene
 {
 public:
 	Scene();
-public:
+	~Scene();
 
 	void Render();
 

@@ -58,19 +58,36 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 			int DiffuseId = mat->GetTextureIdByCategory(ETextureCategory::Diffuse);
 			if (DiffuseId != -1)
 			{
-				Program->SetUniformTexture2D("material.diffuse", DiffuseId);
+				Program->SetUniform1i("material.diffuse", 1);
+				Program->SetUniformTexture2D("material.diffuseSampler", DiffuseId);
 			}
+			else
+			{
+				Program->SetUniform1i("material.diffuse", 0);
+			}
+
 			int SpecularId = mat->GetTextureIdByCategory(ETextureCategory::Specular);
 			if (SpecularId != -1)
 			{
-				Program->SetUniformTexture2D("material.specular", SpecularId);
+				Program->SetUniform1i("material.specular", 1);
+				Program->SetUniformTexture2D("material.specularSampler", SpecularId);
 			}
+			else
+			{
+				Program->SetUniform1i("material.specular", 0);
+			}
+
 			int EmissionId = mat->GetTextureIdByCategory(ETextureCategory::Emission);
 			if (EmissionId != -1)
 			{
-				Program->SetUniformTexture2D("material.emission", EmissionId);
+				Program->SetUniform1i("material.emission", 1);
+				Program->SetUniformTexture2D("material.emissionSampler", EmissionId);
 			}
-			
+			else
+			{
+				Program->SetUniform1i("material.emission", 0);
+			}
+
 			Program->SetUniform1i("material.shininess", mat->shininess);
 
 			//绑定顶点和索引
