@@ -19,7 +19,7 @@ public:
 	void Render(Matrix View, Matrix Projection);
 
 private:
-
+	int ShaderId = -1;
 	Mesh* SkyMesh = nullptr;
 };
 

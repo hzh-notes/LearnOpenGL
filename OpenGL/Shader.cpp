@@ -178,7 +178,7 @@ ShaderProgramMap* ShaderProgramMap::GetInstance()
 	return _Instance;
 }
 
-void ShaderProgramMap::AddShaderProgram(int Index, std::string VS, std::string PS)
+int ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS)
 {
 	char buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
@@ -190,15 +190,16 @@ void ShaderProgramMap::AddShaderProgram(int Index, std::string VS, std::string P
 	Shader* VertexShader = new Shader(ShaderVS.c_str(), EShaderType::VertexShader);
 	Shader* PixelShader = new Shader(ShaderPS.c_str(), EShaderType::PixelShader);
 
+	ShaderProgram* Program = nullptr;
 	if (VertexShader->Compile() && PixelShader->Compile())
 	{
-		ShaderProgram* Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId);
+		Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId);
 
 		if (Program->Compile())
 		{
 			Program->Use();
 
-			Programs.try_emplace(Index, Program);
+			Programs.try_emplace(Program->ShaderProgramId, Program);
 		}
 		else
 		{
@@ -209,14 +210,18 @@ void ShaderProgramMap::AddShaderProgram(int Index, std::string VS, std::string P
 		glDeleteShader(VertexShader->ShaderId);
 		glDeleteShader(PixelShader->ShaderId);
 	}
-	else
-	{
-		return;
-	}
+	
 
 	delete VertexShader, PixelShader;
 	VertexShader = nullptr;
 	PixelShader = nullptr;
+
+	return Program ? Program->ShaderProgramId : -1;
+}
+
+void ShaderProgramMap::RemoveShaderProgram(int Index)
+{
+	Programs.erase(Index);
 }
 
 ShaderProgram* ShaderProgramMap::GetByKey(int Key)

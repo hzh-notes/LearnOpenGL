@@ -77,7 +77,9 @@ public:
 
 	static ShaderProgramMap* GetInstance();
 
-	void AddShaderProgram(int Index, std::string VS, std::string PS);
+	int AddShaderProgram(std::string VS, std::string PS);
+
+	void RemoveShaderProgram(int Index);
 
 	ShaderProgram* GetByKey(int Key);
 

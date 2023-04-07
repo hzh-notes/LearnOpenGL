@@ -1,6 +1,7 @@
 #include "Material.h"
 #include "stb_image.h"
 #include "glad/glad.h"
+#include "Shader.h"
 #include <iostream>
 #include <direct.h>
 #include <windows.h>
@@ -8,6 +9,8 @@
 Material::Material(int InID)
 {
 	Id = InID;
+	//±àÒë×ÅÉ«Æ÷
+	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
 }
 
 bool Material::Compile()

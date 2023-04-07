@@ -39,7 +39,7 @@ private:
 public:
 	bool bEmission = false;
 	int shininess = 32;
-
+	int ShaderId = -1;
 private:
 	int Id = 0;
 

@@ -30,7 +30,7 @@ int main()
 	Mesh* floor = new Plane(Transform(Vector3f(0, 0, -150), Vector3f(0, 0, 0), Vector3f(10)));
 	Mesh* grass = new Plane(Transform(Vector3f(75, 0, 0), Vector3f(0, -90, 0), Vector3f(1)));
 
-	Material* Mat0 = new Material(0);
+	Material* Mat0 = new Material(1);
 	Mat0->SetTextureParam("container2.png", ETextureCategory::Diffuse);
 	Mat0->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
 	Mat0->Compile();
@@ -40,12 +40,12 @@ int main()
 	lightMat->bEmission = true;
 	lightMat->Compile();
 
-	Material* floorMat = new Material(2);
+	Material* floorMat = new Material(3);
 	floorMat->SetTextureParam("floor.jpg", ETextureCategory::Diffuse);
 	floorMat->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
 	floorMat->Compile();
 
-	Material* grassMat = new Material(3);
+	Material* grassMat = new Material(4);
 	grassMat->SetTextureParam("blending_transparent_window.png", ETextureCategory::Diffuse);
 	grassMat->Compile();
 

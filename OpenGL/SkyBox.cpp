@@ -6,8 +6,8 @@
 
 SkyBox::SkyBox()
 {
-	ShaderProgramMap::GetInstance()->AddShaderProgram(0, "\\Shader\\SkyVS.glsl", "\\Shader\\SkyPS.glsl");
-	ShaderProgramMap::GetInstance()->GetByKey(0)->LoadSkyCubeMap();
+	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\SkyVS.glsl", "\\Shader\\SkyPS.glsl");
+	ShaderProgramMap::GetInstance()->GetByKey(ShaderId)->LoadSkyCubeMap();
 
 	SkyMesh = new Cube(Transform());
 }
@@ -20,7 +20,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::Render(Matrix View, Matrix Projection)
 {
-	ShaderProgram* SkyProgram = ShaderProgramMap::GetInstance()->GetByKey(0);
+	ShaderProgram* SkyProgram = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	SkyProgram->Use();
 
 	Matrix ViewWithoutTranlate = View;
