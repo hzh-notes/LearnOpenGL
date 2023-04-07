@@ -16,6 +16,7 @@ enum class ETextureCategory
 struct TextureParam
 {
 	int Id = -1;
+	int Index = -1;
 	std::string Path;
 	ETextureCategory Category;
 };
@@ -33,7 +34,7 @@ public:
 
 private:
 
-	int BindImage(std::string ImagPath, int index, unsigned int& OutTexture);
+	int BindImage(std::string ImagPath, int index);
 
 public:
 	bool bEmission = false;

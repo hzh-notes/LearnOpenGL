@@ -11,8 +11,7 @@ MeshRenderer::MeshRenderer()
 }
 
 void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos)
-{
-	glFrontFace(GL_CCW);
+{	
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(1);
 
 	if (Program)

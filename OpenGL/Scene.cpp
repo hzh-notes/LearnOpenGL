@@ -27,7 +27,6 @@ Scene::~Scene()
 void Scene::Render()
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//更新鼠标位置
@@ -48,8 +47,13 @@ void Scene::Render()
 
 		glEnable(GL_CULL_FACE);
 
+		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_LEQUAL);
+		glFrontFace(GL_CW);
 		Sky->Render(view, projection);
 
+		glDepthMask(GL_TRUE);
+		glFrontFace(GL_CCW);
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
 	}
 
@@ -190,7 +194,8 @@ int Scene::WindowInit()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	//禁止修改窗口大小
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	//设置采样缓冲样本数
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -215,12 +220,45 @@ int Scene::WindowInit()
 	glEnable(GL_MULTISAMPLE);
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
+	//GenFrameBuffer(Vector2f(1080, 720));
 	//注册设置窗口大小的回调
-	glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
+	//glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	return 0;
+}
+
+void Scene::GenFrameBuffer(Vector2f ViewportSize)
+{
+	unsigned int FBO;
+	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	//纹理附件
+	unsigned int ColorTexture;
+	glGenTextures(1, &ColorTexture);
+	glBindTexture(GL_TEXTURE_2D, ColorTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ViewportSize.X, ViewportSize.Y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
+
+	//渲染缓冲对象附件
+	unsigned int RBO;
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, ViewportSize.X, ViewportSize.Y);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+		return;
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
 }
 
 void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const

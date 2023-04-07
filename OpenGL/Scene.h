@@ -47,6 +47,8 @@ public:
 private:
 	int WindowInit();
 
+	void GenFrameBuffer(Vector2f ViewportSize);
+
 	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
 private:
 

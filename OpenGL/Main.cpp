@@ -35,7 +35,7 @@ int main()
 	Mat0->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
 	Mat0->Compile();
 
-	Material* lightMat = new Material(1);
+	Material* lightMat = new Material(2);
 	lightMat->SetTextureParam("matrix.jpg", ETextureCategory::Emission);
 	lightMat->bEmission = true;
 	lightMat->Compile();
