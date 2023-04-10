@@ -6,8 +6,8 @@
 #include "glad/glad.h"
 #include <string>
 #include <map>
-#include "Vector.h"
-#include "Matrix.h"
+#include "Math/Vector.h"
+#include "Math/Matrix.h"
 
 enum class EShaderType : GLenum
 {

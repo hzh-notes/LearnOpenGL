@@ -25,135 +25,150 @@
     <Filter Include="源文件\Private\Shapes">
       <UniqueIdentifier>{1cf778fd-3b9f-4676-a13a-5f4196eef82b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Public\Math">
+      <UniqueIdentifier>{721c4160-f6a6-4487-8b34-688aafaa9f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Private\Math">
+      <UniqueIdentifier>{19a3adfc-f032-43c4-8824-434d7e92cbac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="Public\Camera.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Vector3.cpp">
+    <ClCompile Include="Public\FunctionLibrary.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Vector4.cpp">
+    <ClCompile Include="Public\IndexBuffer.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="stb_imagecpp.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
+    <ClCompile Include="Public\Main.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
+    <ClCompile Include="Public\Material.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
+    <ClCompile Include="Public\MeshRenderer.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
+    <ClCompile Include="Public\Scene.cpp">
       <Filter>源文件\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
+    <ClCompile Include="Public\Shader.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\SkyBox.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\stb_imagecpp.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\VertexBuffer.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Matrix.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Quat.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Transform.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Vector2.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Vector3.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Math\Vector4.cpp">
+      <Filter>源文件\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Public\Shapes\Cube.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>源文件\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
+    <ClCompile Include="Public\Shapes\Mesh.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>源文件\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>源文件\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>源文件\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="Sphere.cpp">
+    <ClCompile Include="Public\Shapes\Plane.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Quat.cpp">
-      <Filter>源文件\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Plane.cpp">
+    <ClCompile Include="Public\Shapes\Sphere.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="Public\Camera.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
+    <ClInclude Include="Public\FunctionLibrary.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Vector4.h">
+    <ClInclude Include="Public\IndexBuffer.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
+    <ClInclude Include="Public\Material.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
+    <ClInclude Include="Public\MeshRenderer.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
+    <ClInclude Include="Public\Scene.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
+    <ClInclude Include="Public\Shader.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
+    <ClInclude Include="Public\SkyBox.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="Public\stb_image.h">
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\VertexBuffer.h">
+      <Filter>头文件\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Matrix.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Quat.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Transform.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Vector.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Vector2.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Vector3.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Math\Vector4.h">
+      <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Shapes\Cube.h">
       <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>头文件\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
+    <ClInclude Include="Public\Shapes\Mesh.h">
       <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>头文件\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>头文件\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>头文件\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
+    <ClInclude Include="Public\Shapes\Plane.h">
       <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Quat.h">
+    <ClInclude Include="Public\Shapes\Sphere.h">
+      <Filter>头文件\Public\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionLibrary.h">
       <Filter>头文件\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Macro.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>头文件\Public\Shapes</Filter>
+    <ClInclude Include="Public\Math\Macro.h">
+      <Filter>头文件\Public\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,12 +6,14 @@
 MeshRenderer::MeshRenderer()
 {
 	//编译着色器
-	//ShaderProgramMap::GetInstance()->AddShaderProgram(1, "\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
+	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
 
 }
 
 void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos)
 {
+	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
+	Program->Use();
 
 	for (Mesh* mesh : Meshes)
 	{
@@ -24,9 +26,7 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 		VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
 		IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
 		Material* mat = mesh->GetMaterial();
-		ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(mat->ShaderId);
-		Program->Use();
-
+		
 		Program->SetUniform4x4("view", View);
 		Program->SetUniform4x4("projection", Projection);
 		Program->SetUniform3f("viewPos", ViewPos);
@@ -49,43 +49,8 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 		Program->SetUniform3f("dirLight.specular", Vector3f(1.f));
 
 		Program->SetUniform4x4("model", model);
-
-		//material
-		int DiffuseId = mat->GetTextureIdByCategory(ETextureCategory::Diffuse);
-		if (DiffuseId != -1)
-		{
-			Program->SetUniform1i("material.diffuse", 1);
-			Program->SetUniformTexture2D("material.diffuseSampler", DiffuseId);
-		}
-		else
-		{
-			Program->SetUniform1i("material.diffuse", 0);
-		}
-
-		int SpecularId = mat->GetTextureIdByCategory(ETextureCategory::Specular);
-		if (SpecularId != -1)
-		{
-			Program->SetUniform1i("material.specular", 1);
-			Program->SetUniformTexture2D("material.specularSampler", SpecularId);
-		}
-		else
-		{
-			Program->SetUniform1i("material.specular", 0);
-		}
-
-		int EmissionId = mat->GetTextureIdByCategory(ETextureCategory::Emission);
-		if (EmissionId != -1)
-		{
-			Program->SetUniform1i("material.emission", 1);
-			Program->SetUniformTexture2D("material.emissionSampler", EmissionId);
-		}
-		else
-		{
-			Program->SetUniform1i("material.emission", 0);
-		}
-
-		Program->SetUniform1i("material.shininess", mat->shininess);
-
+		mat->Compile(Program);
+		
 		//绑定顶点和索引
 		glBindVertexArray(vBuffer->BufferId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer->BufferId);

@@ -1,6 +1,6 @@
 #include "Scene.h"
-#include "Quat.h"
-#include "Macro.h"
+#include "Math/Quat.h"
+#include "Math/Macro.h"
 
 #include <iostream>
 

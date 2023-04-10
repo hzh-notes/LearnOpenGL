@@ -3,30 +3,35 @@
 #ifndef __MATERIAL_H
 #define __MATERIAL_H
 
+#include <vector>
 #include <string>
 #include <map>
 
 enum class ETextureCategory
 {
-	Diffuse,
-	Specular,
-	Emission,
+	Diffuse = 0,
+	Specular = 1,
+	Emission = 2,
 };
 
 struct TextureParam
 {
-	int Id = -1;
-	int Index = -1;
-	std::string Path;
+	int Id = 0;
+	int Width = 0;
+	int Height = 0;
+	int NumChannels = 0;
 	ETextureCategory Category;
+	std::vector<unsigned char> Datas;
 };
+
+class ShaderProgram;
 
 class Material
 {
 public:
-	Material(int InID);
+	Material();
 
-	bool Compile();
+	bool Compile(ShaderProgram* Program);
 
 	void SetTextureParam(std::string Path, ETextureCategory Category);
 
@@ -34,14 +39,11 @@ public:
 
 private:
 
-	int BindImage(std::string ImagPath, int index);
+	int BindImage(TextureParam Texture);
 
 public:
-	bool bEmission = false;
 	int shininess = 32;
-	int ShaderId = -1;
 private:
-	int Id = 0;
 
 	std::map<ETextureCategory, TextureParam> Textures;
 };

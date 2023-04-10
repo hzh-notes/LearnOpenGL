@@ -1,5 +1,5 @@
 #include "Sphere.h"
-#include "Macro.h"
+#include "Math/Macro.h"
 
 void Sphere::InitMesh()
 {

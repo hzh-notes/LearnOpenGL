@@ -1,10 +1,9 @@
-#include "Vector.h"
+#include "Math/Vector.h"
 
-#include "Cube.h"
-#include "Plane.h"
-#include "Sphere.h"
+#include "Shapes/Cube.h"
+#include "Shapes/Plane.h"
+#include "Shapes/Sphere.h"
 #include "Scene.h"
-using namespace std;
 
 
 //GLenum DrawMode = GL_FILL;
@@ -30,24 +29,19 @@ int main()
 	Mesh* floor = new Plane(Transform(Vector3f(0, 0, -150), Vector3f(0, 0, 0), Vector3f(10)));
 	Mesh* grass = new Plane(Transform(Vector3f(75, 0, 0), Vector3f(0, -90, 0), Vector3f(1)));
 
-	Material* Mat0 = new Material(1);
+	Material* Mat0 = new Material();
 	Mat0->SetTextureParam("container2.png", ETextureCategory::Diffuse);
 	Mat0->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
-	Mat0->Compile();
 
-	Material* lightMat = new Material(2);
+	Material* lightMat = new Material();
 	lightMat->SetTextureParam("matrix.jpg", ETextureCategory::Emission);
-	lightMat->bEmission = true;
-	lightMat->Compile();
 
-	Material* floorMat = new Material(3);
+	Material* floorMat = new Material();
 	floorMat->SetTextureParam("floor.jpg", ETextureCategory::Diffuse);
 	floorMat->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
-	floorMat->Compile();
 
-	Material* grassMat = new Material(4);
+	Material* grassMat = new Material();
 	grassMat->SetTextureParam("blending_transparent_window.png", ETextureCategory::Diffuse);
-	grassMat->Compile();
 
 	cube1->SetMaterial(Mat0);
 	cube2->SetMaterial(Mat0);

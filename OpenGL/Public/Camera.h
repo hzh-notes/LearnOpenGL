@@ -3,8 +3,8 @@
 #ifndef __CAMERA
 #define __CAMERA
 
-#include "Transform.h"
-#include "Matrix.h"
+#include "Math/Transform.h"
+#include "Math/Matrix.h"
 
 class Camera
 {

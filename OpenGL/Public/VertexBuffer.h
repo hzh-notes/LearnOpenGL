@@ -3,7 +3,7 @@
 #ifndef __VERTEXBUFFER
 #define __VERTEXBUFFER
 
-#include "Vector.h"
+#include "Math/Vector.h"
 
 struct MeshVertex
 {

@@ -3,8 +3,8 @@
 #ifndef __MESHRENDERER_H
 #define __MESHRENDERER_H
 
-#include "Mesh.h"
-#include "Matrix.h"
+#include "Shapes/Mesh.h"
+#include "Math/Matrix.h"
 #include <vector>
 class MeshRenderer
 {
@@ -18,6 +18,9 @@ private:
 
 	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel);
 	
+private:
+
+	int ShaderId = -1;
 };
 
 #endif // !__MESHRENDERER_H

@@ -2,7 +2,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
-#include "Cube.h"
+#include "Shapes/Cube.h"
 
 SkyBox::SkyBox()
 {

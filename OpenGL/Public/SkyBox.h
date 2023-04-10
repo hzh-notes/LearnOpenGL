@@ -3,7 +3,7 @@
 #ifndef __SKYBOX_H
 #define __SKYBOX_H
 
-#include "Matrix.h"
+#include "Math/Matrix.h"
 #include <string>
 
 class Mesh;
