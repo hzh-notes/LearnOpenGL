@@ -8,6 +8,8 @@
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "SkyBox.h"
+#include "Screen.h"
+#include "Shapes/Plane.h"
 
 #include <vector>
 
@@ -63,8 +65,10 @@ private:
 	EMouseState MouseState;
 
 	SkyBox* Sky = nullptr;
-
+	Screen* Viewport = nullptr;
 	MeshRenderer* MeshRender = nullptr;
+
+	unsigned int FBO, ColorTexture;
 };
 
 #endif

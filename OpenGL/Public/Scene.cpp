@@ -16,6 +16,7 @@ Scene::Scene()
 	glEnable(GL_DEPTH_TEST);
 	MainCamera = new Camera(Transform(Vector3f(-150.f, 0.f, 0.f), Vector3f(0.f, 0.f, 0.f)));
 	Sky = new SkyBox();
+	Viewport = new Screen();
 	MeshRender = new MeshRenderer();
 }
 
@@ -26,18 +27,15 @@ Scene::~Scene()
 
 void Scene::Render()
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//更新鼠标位置
 	glfwSetCursorPosCallback(Window, [](GLFWwindow* window, double xpos, double ypos) 
 		{
 			glfwSetCursorPos(window, xpos, ypos); 
 		}
 	);
-	
+	//鼠标输入
 	CheckMouseState();
-
+	//键盘输入
 	CheckKeyboardState();
 
 	if (bRenderDataDirty)
@@ -45,16 +43,31 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
-		glEnable(GL_CULL_FACE);
+		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+		glClearColor(1.f, 0.f, 0.f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glEnable(GL_CULL_FACE);
 
-		glDepthMask(GL_FALSE);
-		glDepthFunc(GL_LEQUAL);
+		//glDepthMask(GL_FALSE);
+		//glDepthFunc(GL_LEQUAL);
+
+		glDisable(GL_DEPTH_TEST);
 		glFrontFace(GL_CW);
 		Sky->Render(view, projection);
 
-		glDepthMask(GL_TRUE);
+		glEnable(GL_DEPTH_TEST);
+		//glDepthMask(GL_TRUE);
 		glFrontFace(GL_CCW);
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
+
+		glDisable(GL_DEPTH_TEST);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, ColorTexture);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		Viewport->Render(ColorTexture);
 	}
 
 	glfwPollEvents();
@@ -160,10 +173,11 @@ void Scene::CheckKeyboardState()
 void Scene::Release()
 {
 	//释放资源
-	delete MainCamera, Sky, MeshRender;
+	delete MainCamera, Sky, MeshRender, Viewport;
 	MainCamera = nullptr;
 	Sky = nullptr;
 	MeshRender = nullptr;
+	Viewport = nullptr;
 	glfwTerminate();
 }
 
@@ -220,7 +234,7 @@ int Scene::WindowInit()
 	glEnable(GL_MULTISAMPLE);
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
-	//GenFrameBuffer(Vector2f(1080, 720));
+	GenFrameBuffer(Vector2f(1080, 720));
 	//注册设置窗口大小的回调
 	//glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 
@@ -231,13 +245,14 @@ int Scene::WindowInit()
 
 void Scene::GenFrameBuffer(Vector2f ViewportSize)
 {
-	unsigned int FBO;
+	//unsigned int FBO;
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
 	//纹理附件
-	unsigned int ColorTexture;
+	//unsigned int ColorTexture;
 	glGenTextures(1, &ColorTexture);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ViewportSize.X, ViewportSize.Y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

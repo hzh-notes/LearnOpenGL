@@ -1,9 +1,7 @@
 #include "Shader.h"
 #include "stb_image.h"
-
+#include "FunctionLibrary.h"
 #include <iostream>
-#include <direct.h>
-#include <windows.h>
 #include <fstream>
 #include <sstream>
 
@@ -92,9 +90,7 @@ void ShaderProgram::LoadSkyCubeMap()
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-	char buffer[MAX_PATH];
-	_getcwd(buffer, MAX_PATH);
-	std::string path = buffer;
+	std::string path = FunctionLibrary::GetSolutionDir();
 
 	int Width, Height, NumChannels;
 	unsigned char* Data;
@@ -180,9 +176,7 @@ ShaderProgramMap* ShaderProgramMap::GetInstance()
 
 int ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS)
 {
-	char buffer[MAX_PATH];
-	_getcwd(buffer, MAX_PATH);
-	std::string path = buffer;
+	std::string path = FunctionLibrary::GetSolutionDir();
 
 	std::string ShaderVS = path + VS;
 	std::string ShaderPS = path + PS;

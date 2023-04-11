@@ -16,7 +16,7 @@ enum class ETextureCategory
 
 struct TextureParam
 {
-	int Id = 0;
+	unsigned int Id = 0;
 	int Width = 0;
 	int Height = 0;
 	int NumChannels = 0;
@@ -39,7 +39,7 @@ public:
 
 private:
 
-	int BindImage(TextureParam Texture);
+	bool BindImage(std::string Path, TextureParam& Texture);
 
 public:
 	int shininess = 32;

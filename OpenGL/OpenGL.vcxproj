@@ -163,6 +163,7 @@
     <ClCompile Include="Public\Math\Vector4.cpp" />
     <ClCompile Include="Public\MeshRenderer.cpp" />
     <ClCompile Include="Public\Scene.cpp" />
+    <ClCompile Include="Public\Screen.cpp" />
     <ClCompile Include="Public\Shader.cpp" />
     <ClCompile Include="Public\Shapes\Cube.cpp" />
     <ClCompile Include="Public\Shapes\Mesh.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Public\Math\Vector4.h" />
     <ClInclude Include="Public\MeshRenderer.h" />
     <ClInclude Include="Public\Scene.h" />
+    <ClInclude Include="Public\Screen.h" />
     <ClInclude Include="Public\Shader.h" />
     <ClInclude Include="Public\Shapes\Cube.h" />
     <ClInclude Include="Public\Shapes\Mesh.h" />

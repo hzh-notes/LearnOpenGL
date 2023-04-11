@@ -99,6 +99,9 @@
     <ClCompile Include="Public\Shapes\Sphere.cpp">
       <Filter>源文件\Private\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="Public\Screen.cpp">
+      <Filter>源文件\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Camera.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="Public\Math\Macro.h">
       <Filter>头文件\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Screen.h">
+      <Filter>头文件\Public</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
