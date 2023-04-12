@@ -39,6 +39,7 @@ class ShaderProgram
 {
 public:
 	ShaderProgram(unsigned int VertexShaderId, unsigned int PixelShaderId);
+	ShaderProgram(unsigned int VertexShaderId, unsigned int PixelShaderId, unsigned int GeometryShaderId);
 	~ShaderProgram() {};
 
 	int Compile();
@@ -78,6 +79,8 @@ public:
 	static ShaderProgramMap* GetInstance();
 
 	int AddShaderProgram(std::string VS, std::string PS);
+
+	int AddShaderProgram(std::string VS, std::string PS, std::string GS);
 
 	void RemoveShaderProgram(int Index);
 

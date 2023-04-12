@@ -58,6 +58,15 @@ ShaderProgram::ShaderProgram(unsigned int VertexShaderId, unsigned int PixelShad
 	glLinkProgram(ShaderProgramId);
 }
 
+ShaderProgram::ShaderProgram(unsigned int VertexShaderId, unsigned int PixelShaderId, unsigned int GeometryShaderId)
+{
+	ShaderProgramId = glCreateProgram();
+	glAttachShader(ShaderProgramId, VertexShaderId);
+	glAttachShader(ShaderProgramId, PixelShaderId);
+	glAttachShader(ShaderProgramId, GeometryShaderId);
+	glLinkProgram(ShaderProgramId);
+}
+
 int ShaderProgram::Compile()
 {
 	int  success;
@@ -204,11 +213,52 @@ int ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS)
 		glDeleteShader(VertexShader->ShaderId);
 		glDeleteShader(PixelShader->ShaderId);
 	}
-	
 
 	delete VertexShader, PixelShader;
 	VertexShader = nullptr;
 	PixelShader = nullptr;
+
+	return Program ? Program->ShaderProgramId : -1;
+}
+
+int ShaderProgramMap::AddShaderProgram(std::string VS, std::string PS, std::string GS)
+{
+	std::string path = FunctionLibrary::GetSolutionDir();
+
+	std::string ShaderVS = path + VS;
+	std::string ShaderPS = path + PS;
+	std::string ShaderGS = path + GS;
+
+	Shader* VertexShader = new Shader(ShaderVS.c_str(), EShaderType::VertexShader);
+	Shader* PixelShader = new Shader(ShaderPS.c_str(), EShaderType::PixelShader);
+	Shader* GeometryShader = new Shader(ShaderPS.c_str(), EShaderType::GeometryShader);
+
+	ShaderProgram* Program = nullptr;
+	if (VertexShader->Compile() && PixelShader->Compile())
+	{
+		Program = new ShaderProgram(VertexShader->ShaderId, PixelShader->ShaderId, GeometryShader->ShaderId);
+
+		if (Program->Compile())
+		{
+			Program->Use();
+
+			Programs.try_emplace(Program->ShaderProgramId, Program);
+		}
+		else
+		{
+			delete Program;
+			Program = nullptr;
+		}
+
+		glDeleteShader(VertexShader->ShaderId);
+		glDeleteShader(PixelShader->ShaderId);
+		glDeleteShader(GeometryShader->ShaderId);
+	}
+
+	delete VertexShader, PixelShader, GeometryShader;
+	VertexShader = nullptr;
+	PixelShader = nullptr;
+	GeometryShader = nullptr;
 
 	return Program ? Program->ShaderProgramId : -1;
 }

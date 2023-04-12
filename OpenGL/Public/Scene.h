@@ -68,7 +68,7 @@ private:
 	Screen* Viewport = nullptr;
 	MeshRenderer* MeshRender = nullptr;
 
-	unsigned int FBO, ColorTexture;
+	unsigned int FBO, ColorTexture, RBO, DepthTexture;
 };
 
 #endif

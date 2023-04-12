@@ -47,6 +47,10 @@ public:
 
 	static Matrix LookAt(Vector3f Eye, Vector3f Target, Vector3f Up);
 
+	static Matrix OrthoMatrix(float Width, float Height, float MinZ, float MaxZ);
+
+	static Matrix ReversedZOrthoMatrix(float Width, float Height, float MinZ, float MaxZ);
+
 	static Matrix Perspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ);
 
 	static Matrix ReversedZPerspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ);

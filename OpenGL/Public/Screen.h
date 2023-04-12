@@ -10,10 +10,9 @@ public:
 	Screen();
 	~Screen();
 
-	void Render(unsigned int ColorBuffer);
+	void Render();
 
 private:
-
 	int ShaderId = -1;
 };
 

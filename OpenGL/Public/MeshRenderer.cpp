@@ -6,7 +6,7 @@
 MeshRenderer::MeshRenderer()
 {
 	//±àÒë×ÅÉ«Æ÷
-	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\VertexShader.glsl", "\\Shader\\PixelShader.glsl");
+	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\MeshVS.glsl", "\\Shader\\MeshPS.glsl");
 
 }
 

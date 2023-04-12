@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "FunctionLibrary.h"
 
 Screen::Screen()
 {
@@ -13,7 +14,7 @@ Screen::~Screen()
 
 }
 
-void Screen::Render(unsigned int ColorBuffer)
+void Screen::Render()
 {
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 
@@ -21,7 +22,6 @@ void Screen::Render(unsigned int ColorBuffer)
 	{
 		Program->Use();
 		Program->SetUniformTexture2D("screenTexture", 0);
-
 		//绑定顶点和索引
 		float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 		// positions   // texCoords

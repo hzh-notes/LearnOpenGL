@@ -275,6 +275,32 @@ Matrix Matrix::LookAt(Vector3f Eye, Vector3f Target, Vector3f Up)
 		});
 }
 
+Matrix Matrix::OrthoMatrix(float Width, float Height, float MinZ, float MaxZ)
+{
+	float ZScale = 1.f / (MaxZ - MinZ);
+	float ZOffset = -MinZ;
+	return Matrix(
+		{
+			(Width != 0.0f) ? (1.0f / Width) : 1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, (Height != 0.0f) ? (1.0f / Height) : 1.f, 0.0f, 0.0f,
+			0.0f, 0.0f, ZScale, 0.0f,
+			0.0f, 0.0f, ZOffset * ZScale, 1.0f
+		});
+}
+
+Matrix Matrix::ReversedZOrthoMatrix(float Width, float Height, float MinZ, float MaxZ)
+{
+	float ZScale = 1.f / (MaxZ - MinZ);
+	float ZOffset = -MinZ;
+	return Matrix(
+		{
+			(Width != 0.0f) ? (1.0f / Width) : 1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, (Height != 0.0f) ? (1.0f / Height) : 1.f, 0.0f, 0.0f,
+			0.0f, 0.0f, -ZScale, 0.0f,
+			0.0f, 0.0f, 1.0f - ZOffset * ZScale, 1.0f
+		});
+}
+
 Matrix Matrix::Perspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ)
 {
 	HalfFOV = HalfFOV * PI / 180.0f;

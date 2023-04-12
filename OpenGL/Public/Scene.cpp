@@ -44,12 +44,12 @@ void Scene::Render()
 		GetCameraInfo(view, projection);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-		glClearColor(1.f, 0.f, 0.f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 
-		//glDepthMask(GL_FALSE);
-		//glDepthFunc(GL_LEQUAL);
+		/*glDepthMask(GL_FALSE);
+		glDepthFunc(GL_LEQUAL);*/
 
 		glDisable(GL_DEPTH_TEST);
 		glFrontFace(GL_CW);
@@ -61,13 +61,13 @@ void Scene::Render()
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
 
 		glDisable(GL_DEPTH_TEST);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, ColorTexture);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
+		glBindTexture(GL_TEXTURE_2D, ColorTexture);
+		//glBindTexture(GL_TEXTURE_2D, DepthTexture);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		Viewport->Render(ColorTexture);
+		Viewport->Render();
 	}
 
 	glfwPollEvents();
@@ -211,7 +211,7 @@ int Scene::WindowInit()
 	//禁止修改窗口大小
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	//设置采样缓冲样本数
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	//glfwWindowHint(GLFW_SAMPLES, 4);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//初始化窗口
@@ -231,7 +231,7 @@ int Scene::WindowInit()
 		return -1;
 	}
 	//启用多重采样
-	glEnable(GL_MULTISAMPLE);
+	//glEnable(GL_MULTISAMPLE);
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
 	GenFrameBuffer(Vector2f(1080, 720));
@@ -252,15 +252,27 @@ void Scene::GenFrameBuffer(Vector2f ViewportSize)
 	//纹理附件
 	//unsigned int ColorTexture;
 	glGenTextures(1, &ColorTexture);
-	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ViewportSize.X, ViewportSize.Y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ViewportSize.X, ViewportSize.Y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
 
+	glGenTextures(1, &DepthTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ViewportSize.X, ViewportSize.Y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DepthTexture, 0);
+
+	/*glGenTextures(1, &StencilTexture);
+	glBindTexture(GL_TEXTURE_2D, StencilTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX, ViewportSize.X, ViewportSize.Y, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, StencilTexture, 0);*/
+
 	//渲染缓冲对象附件
-	unsigned int RBO;
 	glGenRenderbuffers(1, &RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, ViewportSize.X, ViewportSize.Y);
