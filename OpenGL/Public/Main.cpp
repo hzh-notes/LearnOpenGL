@@ -38,7 +38,6 @@ int main()
 
 	Material* floorMat = new Material();
 	floorMat->SetTextureParam("floor.jpg", ETextureCategory::Diffuse);
-	floorMat->SetTextureParam("container2_specular.png", ETextureCategory::Specular);
 
 	Material* grassMat = new Material();
 	grassMat->SetTextureParam("blending_transparent_window.png", ETextureCategory::Diffuse);

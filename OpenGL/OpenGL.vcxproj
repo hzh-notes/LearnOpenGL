@@ -153,6 +153,7 @@
     <ClCompile Include="Public\Camera.cpp" />
     <ClCompile Include="Public\FunctionLibrary.cpp" />
     <ClCompile Include="Public\IndexBuffer.cpp" />
+    <ClCompile Include="Public\Light.cpp" />
     <ClCompile Include="Public\Main.cpp" />
     <ClCompile Include="Public\Material.cpp" />
     <ClCompile Include="Public\Math\Matrix.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\FunctionLibrary.h" />
     <ClInclude Include="Public\IndexBuffer.h" />
+    <ClInclude Include="Public\Light.h" />
     <ClInclude Include="Public\Material.h" />
     <ClInclude Include="Public\Math\Macro.h" />
     <ClInclude Include="Public\Math\Matrix.h" />

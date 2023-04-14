@@ -14,7 +14,9 @@ public:
 
 	Camera(Transform InTransform) :transform(InTransform) {}
 
-	Matrix GetProjectMatrix();
+	Matrix GetPerspectiveMatrix();
+
+	Matrix GetOrthoMatrix();
 
 	Matrix GetViewMatrix();
 

@@ -145,10 +145,10 @@ void main()
 		
 		vec3 diffuse = mix(vec3(1.0), baseColor.rgb, material.diffuse);
 		
-		vec3 specular = mix(vec3(1.0), texture(material.specularSampler, uv).rgb, material.specular);
+		vec3 specular = mix(vec3(0.0), texture(material.specularSampler, uv).rgb, material.specular);
 		
 		finalColor.rgb += CalcDirLight(dirLight, norm, viewDir, diffuse, specular);
-		finalColor.rgb += CalcSpotLight(spotLight, norm, FragPos, viewDir, diffuse, specular);
+		//finalColor.rgb += CalcSpotLight(spotLight, norm, FragPos, viewDir, diffuse, specular);
 		finalColor.a = baseColor.a;
 	}
 	

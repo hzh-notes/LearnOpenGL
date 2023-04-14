@@ -9,6 +9,7 @@
 #include "MeshRenderer.h"
 #include "SkyBox.h"
 #include "Screen.h"
+#include "Light.h"
 #include "Shapes/Plane.h"
 
 #include <vector>
@@ -49,7 +50,9 @@ public:
 private:
 	int WindowInit();
 
-	void GenFrameBuffer(Vector2f ViewportSize);
+	void GenFrameBuffer(Vector2f ViewportSize); 
+	
+	void GenDepthFrameBuffer(Vector2f ViewportSize);
 
 	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
 private:
@@ -67,8 +70,10 @@ private:
 	SkyBox* Sky = nullptr;
 	Screen* Viewport = nullptr;
 	MeshRenderer* MeshRender = nullptr;
+	Light* DirLight = nullptr;
 
-	unsigned int FBO, ColorTexture, RBO, DepthTexture;
+	unsigned int FBO, ColorTexture, RBO;
+	unsigned int DepthFBO, DepthTexture;
 };
 
 #endif

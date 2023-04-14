@@ -18,6 +18,7 @@ Scene::Scene()
 	Sky = new SkyBox();
 	Viewport = new Screen();
 	MeshRender = new MeshRenderer();
+	DirLight = new Light();
 }
 
 Scene::~Scene()
@@ -60,11 +61,14 @@ void Scene::Render()
 		glFrontFace(GL_CCW);
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
 
-		glDisable(GL_DEPTH_TEST);
+		glBindFramebuffer(GL_FRAMEBUFFER, DepthFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		DirLight->Render(Meshes);
 
+		glDisable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
-		//glBindTexture(GL_TEXTURE_2D, DepthTexture);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		Viewport->Render();
@@ -235,6 +239,7 @@ int Scene::WindowInit()
 	//设置视口大小
 	glViewport(0, 0, 1080, 720);
 	GenFrameBuffer(Vector2f(1080, 720));
+	GenDepthFrameBuffer(Vector2f(1080, 720));
 	//注册设置窗口大小的回调
 	//glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 
@@ -257,13 +262,6 @@ void Scene::GenFrameBuffer(Vector2f ViewportSize)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
-
-	glGenTextures(1, &DepthTexture);
-	glBindTexture(GL_TEXTURE_2D, DepthTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ViewportSize.X, ViewportSize.Y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DepthTexture, 0);
 
 	/*glGenTextures(1, &StencilTexture);
 	glBindTexture(GL_TEXTURE_2D, StencilTexture);
@@ -288,8 +286,24 @@ void Scene::GenFrameBuffer(Vector2f ViewportSize)
 
 }
 
+void Scene::GenDepthFrameBuffer(Vector2f ViewportSize)
+{
+	glGenFramebuffers(1, &DepthFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, DepthFBO);
+
+	glGenTextures(1, &DepthTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ViewportSize.X, ViewportSize.Y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DepthTexture, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const
 {
 	OutView = MainCamera->GetViewMatrix();
-	OutProjection = MainCamera->GetProjectMatrix();
+	OutProjection = MainCamera->GetPerspectiveMatrix();
 }

@@ -1,8 +1,13 @@
 #include "Camera.h"
 
-Matrix Camera::GetProjectMatrix()
+Matrix Camera::GetPerspectiveMatrix()
 {
 	return Matrix::Perspective(fov / 2.0, witdh, height, nearClip, farClip);
+}
+
+Matrix Camera::GetOrthoMatrix()
+{
+	return Matrix::OrthoMatrix(witdh, height, nearClip, farClip);
 }
 
 Matrix Camera::GetViewMatrix()
