@@ -4,12 +4,20 @@ out vec4 FragColor;
 in vec2 TexCoords;
 
 uniform sampler2D screenTexture;
+uniform float near;
+uniform float far;
 
 const float offset = 1.0 / 1000.0;  
 
-void main()
+float LinearizeDepth(float depth)
 {
-    vec2 offsets[9] = vec2[](
+    float z = depth * 2.0 - 1.0; // Back to NDC 
+    return (2.0 * near * far) / (far + near - z * (far - near));	
+}
+
+vec3 Post()
+{
+	vec2 offsets[9] = vec2[](
         vec2(-offset,  offset), // 左上
         vec2( 0.0f,    offset), // 正上
         vec2( offset,  offset), // 右上
@@ -35,6 +43,16 @@ void main()
     vec3 col = vec3(0.0);
     for(int i = 0; i < 9; i++)
         col += sampleTex[i] * kernel[i];
+		
+	return col;
+}
 
-    FragColor = vec4(texture(screenTexture, TexCoords).rgb, 1.0);//vec4(col, 1.0);
+void main()
+{
+	float depthValue = texture(screenTexture, TexCoords).r;
+	
+	//FragColor = vec4(vec3(LinearizeDepth(depthValue) / far), 1.0);
+    //FragColor = vec4(vec3(depthValue), 1.0);
+	
+	FragColor = texture(screenTexture, TexCoords);
 }

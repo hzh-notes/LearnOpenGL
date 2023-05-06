@@ -31,3 +31,18 @@ Vector4f Transform::TransformVector4f(Vector4f V) const
 {
 	return GetMatrixWithScale().TransformVector4f(V);
 }
+
+Vector3f Transform::GetForwardVector() const
+{
+	return GetMatrixWithoutScale().TransformVector4f(Vector3f(1, 0, 0));
+}
+
+Vector3f Transform::GetUpVector() const
+{
+	return GetMatrixWithoutScale().TransformVector4f(Vector3f(0, 0, 1));
+}
+
+Vector3f Transform::GetRightVector() const
+{
+	return GetMatrixWithoutScale().TransformVector4f(Vector3f(0, 1, 0));
+}

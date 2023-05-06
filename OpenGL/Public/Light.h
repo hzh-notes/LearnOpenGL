@@ -12,6 +12,13 @@ public:
 
 	Light();
 
+	Light(Transform InTransform) : Light() 
+	{
+		LightTransform = InTransform;
+	};
+
+	Matrix GetLightSpaceMatrix() const;
+
 	void Render(std::vector<Mesh*> Meshes);
 
 public:

@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __VECTOR_H__
+#define __VECTOR_H__ 
+
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -66,3 +69,5 @@ TVector4<T>::TVector4(const TVector<T>& InVector3)
 {
 
 }
+#endif //__VECTOR_H__
+

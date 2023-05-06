@@ -18,7 +18,7 @@ Scene::Scene()
 	Sky = new SkyBox();
 	Viewport = new Screen();
 	MeshRender = new MeshRenderer();
-	DirLight = new Light();
+	DirLight = new Light(Transform(Vector3f(-200, 0, 100), Vector3f(30, 0, 0)));
 }
 
 Scene::~Scene()
@@ -44,6 +44,11 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
+		glEnable(GL_DEPTH_TEST);
+		glBindFramebuffer(GL_FRAMEBUFFER, DepthFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		DirLight->Render(Meshes);
+
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -60,10 +65,6 @@ void Scene::Render()
 		//glDepthMask(GL_TRUE);
 		glFrontFace(GL_CCW);
 		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, DepthFBO);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		DirLight->Render(Meshes);
 
 		glDisable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); // ·µ»ØÄ¬ÈÏ
@@ -152,25 +153,25 @@ void Scene::CheckKeyboardState()
 	{
 		Vector3f Forward = MainCamera->transform.TransformVector4f(Vector3f(1.f, 0.f, 0.f));
 
-		MainCamera->transform.Position += Forward.Normalize() * 20.f;
+		MainCamera->transform.Position += Forward.Normalize() * 10.f;
 	}
 	if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		Vector3f Left = MainCamera->transform.TransformVector4f(Vector3f(0.f, -1.f, 0.f));
 
-		MainCamera->transform.Position += Left.Normalize() * 20.f;
+		MainCamera->transform.Position += Left.Normalize() * 10.f;
 	}
 	if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		Vector3f Back = MainCamera->transform.TransformVector4f(Vector3f(-1.f, 0.f, 0.f));
 
-		MainCamera->transform.Position += Back.Normalize() * 20.f;
+		MainCamera->transform.Position += Back.Normalize() * 10.f;
 	}
 	if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		Vector3f Right = MainCamera->transform.TransformVector4f(Vector3f(0.f, 1.f, 0.f));
 
-		MainCamera->transform.Position += Right.Normalize() * 20.f;
+		MainCamera->transform.Position += Right.Normalize() * 10.f;
 	}
 }
 

@@ -41,6 +41,11 @@ public:
 
 	Vector4f TransformVector4f(Vector4f V) const;
 
+	Vector3f GetForwardVector() const;
+
+	Vector3f GetUpVector() const;
+
+	Vector3f GetRightVector() const;
 public:
 	Vector3f Position;
 	Quat4f Rotation;

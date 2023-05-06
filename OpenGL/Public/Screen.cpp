@@ -22,6 +22,8 @@ void Screen::Render()
 	{
 		Program->Use();
 		Program->SetUniformTexture2D("screenTexture", 0);
+		Program->SetUniform1f("near", 1.f);
+		Program->SetUniform1f("far", 10000.f);
 		//绑定顶点和索引
 		float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 		// positions   // texCoords

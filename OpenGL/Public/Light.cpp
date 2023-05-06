@@ -8,26 +8,34 @@ Light::Light()
 	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\LightVS.glsl", "\\Shader\\LightPS.glsl");
 }
 
+Matrix Light::GetLightSpaceMatrix() const
+{
+	Matrix View = Matrix::LookAt(LightTransform.Position, LightTransform.GetForwardVector(), LightTransform.GetUpVector());//Vector3f(0, -0.866, -0.5), Vector3f(0, -0.5, 0.866));
+	Matrix Projection = Matrix::Perspective(45.f, 1080.f, 720.f, 1.f, 10000.f);
+	//Matrix::OrthoMatrix(1080.f, 720.f, 1.f, 100000.f);
+
+	return View * Projection;
+}
+
 void Light::Render(std::vector<Mesh*> Meshes)
 {
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	Program->Use();
-	Matrix View = Matrix::LookAt(Vector3f(0), Vector3f(0, -0.866, -0.5), Vector3f(0, -0.5, 0.866));
-	Matrix Projection = Matrix::OrthoMatrix(1080.f, 720.f, 1.f, 1000000.f);
+	
 
 	for (Mesh* mesh : Meshes)
 	{
 		std::vector<MeshVertex> Vertices;
 		std::vector<int> Indices;
 
+		mesh->GetElementInfo(Vertices, Indices);
+
 		VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
 		IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
-		Material* mat = mesh->GetMaterial();
 
-		Program->SetUniform4x4("view", View);
-		Program->SetUniform4x4("projection", Projection);
-
-		mat->Compile(Program);
+		Matrix model = mesh->MeshTransform.GetMatrixWithScale();
+		Program->SetUniform4x4("model", model);
+		Program->SetUniform4x4("lightSpaceMatrix", GetLightSpaceMatrix());
 
 		//绑定顶点和索引
 		glBindVertexArray(vBuffer->BufferId);
@@ -35,7 +43,6 @@ void Light::Render(std::vector<Mesh*> Meshes)
 		//绘制模式
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//绘制
-		//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 		glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
 		delete iBuffer, vBuffer;

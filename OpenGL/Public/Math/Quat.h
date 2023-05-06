@@ -24,6 +24,8 @@ public:
 
 	TVector<T> RotateVector(TVector<T> V) const;
 
+	TVector<T> UnrotateVector(TVector<T> V) const;
+
 	TVector<T> ToRotation() const;
 
 	Matrix ToMatrix() const;

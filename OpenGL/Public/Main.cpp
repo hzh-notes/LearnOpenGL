@@ -25,9 +25,9 @@ int main()
 	
 	Mesh* cube1 = new Cube(Transform(Vector3f(150, -20, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
 	Mesh* cube2 = new Cube(Transform(Vector3f(150, 50, 0), Vector3f(0, 0, 0), Vector3f(0.5)));
-	Mesh* sphere = new Sphere(Transform(Vector3f(0, 0, 100), Vector3f(0, 0, 0), Vector3f(0.05)));
+	Mesh* sphere = new Sphere(Transform(Vector3f(0, 500, 100), Vector3f(0, 0, 0), Vector3f(0.05)));
 	Mesh* floor = new Plane(Transform(Vector3f(0, 0, -150), Vector3f(0, 0, 0), Vector3f(10)));
-	Mesh* grass = new Plane(Transform(Vector3f(75, 0, 0), Vector3f(0, -90, 0), Vector3f(1)));
+	Mesh* grass = new Plane(Transform(Vector3f(75, 0, 0), Vector3f(0, 0, 30), Vector3f(1)));
 
 	Material* Mat0 = new Material();
 	Mat0->SetTextureParam("container2.png", ETextureCategory::Diffuse);

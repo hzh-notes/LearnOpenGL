@@ -59,6 +59,15 @@ TVector<T> TQuat<T>::RotateVector(TVector<T> V) const
 }
 
 template<typename T>
+TVector<T> TQuat<T>::UnrotateVector(TVector<T> V) const
+{
+	const TVector<T> Q(-X, -Y, -Z);
+	const TVector<T> TT = TVector<T>(2.0) * (Q ^ V);
+	const TVector<T> Result = V + (TVector<T>(W) * TT) + Q ^ TT;
+	return Result;
+}
+
+template<typename T>
 TVector<T> TQuat<T>::ToRotation() const
 {
 	const T SingularityTest = Z * X - W * Y;
@@ -113,8 +122,8 @@ template<typename T>
 TQuat<T> TQuat<T>::FromEuler(TVector<T>& Euler)
 {
 	TQuat<T> QuatFromRoll = TQuat<T>(1.0, 0.0, 0.0, DegreeToRadian(Euler.X));
-	TQuat<T> QuatFromPitch = TQuat<T>(0.0, -1.0, 0.0, DegreeToRadian(Euler.Y));
-	TQuat<T> QuatFromYaw = TQuat<T>(0.0, 0.0, 1.0, DegreeToRadian(Euler.Z));
+	TQuat<T> QuatFromPitch = TQuat<T>(QuatFromRoll.UnrotateVector(TVector<T>(0.0, -1.0, 0.0)), DegreeToRadian(Euler.Y));
+	TQuat<T> QuatFromYaw = TQuat<T>((QuatFromRoll * QuatFromPitch).UnrotateVector(TVector<T>(0.0, 0.0, 1.0)), DegreeToRadian(Euler.Z));
 
 	return QuatFromRoll * QuatFromPitch * QuatFromYaw;
 }
