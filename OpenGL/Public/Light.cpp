@@ -11,8 +11,9 @@ Light::Light()
 Matrix Light::GetLightSpaceMatrix() const
 {
 	Matrix View = Matrix::LookAt(LightTransform.Position, LightTransform.GetForwardVector(), LightTransform.GetUpVector());//Vector3f(0, -0.866, -0.5), Vector3f(0, -0.5, 0.866));
-	Matrix Projection = Matrix::Perspective(45.f, 1080.f, 720.f, 1.f, 10000.f);
-	//Matrix::OrthoMatrix(1080.f, 720.f, 1.f, 100000.f);
+	Matrix Projection = 
+		//Matrix::Perspective(45.f, 1080.f, 720.f, 1.f, 10000.f);
+		Matrix::OrthoMatrix(1080.f, 720.f, 1.f, 100000.f);
 
 	return View * Projection;
 }
@@ -21,7 +22,7 @@ void Light::Render(std::vector<Mesh*> Meshes)
 {
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	Program->Use();
-	
+
 
 	for (Mesh* mesh : Meshes)
 	{

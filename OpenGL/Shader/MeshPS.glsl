@@ -55,6 +55,9 @@ uniform DirectionLight dirLight;
 uniform SpotLight spotLight;
 uniform Material material;
 
+uniform mat4 lightSpaceMat;
+uniform sampler2D depthTexture;
+
 in vec4 VertexColor;
 in vec3 Normal;
 in vec2 TexCoord;
@@ -63,7 +66,7 @@ in vec3 FragPos;
 
 out vec4 FragColor;
 
-vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
+vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 diffuseColor, vec3 specularColor, float shadow)
 {
 	vec3 lightDir = normalize(-light.direction);
     // 漫反射着色
@@ -75,7 +78,7 @@ vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 diffuseC
     vec3 ambient  = light.ambient  * diffuseColor;
     vec3 diffuse  = light.diffuse  * diff * diffuseColor;
     vec3 specular = light.specular * spec * specularColor;
-    return (ambient + diffuse + specular);
+    return (ambient + (1.0 - shadow) * (diffuse + specular));
 }
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
@@ -147,7 +150,13 @@ void main()
 		
 		vec3 specular = mix(vec3(0.0), texture(material.specularSampler, uv).rgb, material.specular);
 		
-		finalColor.rgb += CalcDirLight(dirLight, norm, viewDir, diffuse, specular);
+		//计算阴影
+		vec4 lightSpaceFrag = lightSpaceMat * vec4(FragPos, 1.0);
+		lightSpaceFrag.xyz /= lightSpaceFrag.w;
+		lightSpaceFrag.xyz = lightSpaceFrag.xyz * 0.5f + 0.5f;
+		float shadow = texture(depthTexture, lightSpaceFrag.xy).r >= lightSpaceFrag.z ? 0.f : 1.f;
+		
+		finalColor.rgb += CalcDirLight(dirLight, norm, viewDir, diffuse, specular, shadow);
 		//finalColor.rgb += CalcSpotLight(spotLight, norm, FragPos, viewDir, diffuse, specular);
 		finalColor.a = baseColor.a;
 	}

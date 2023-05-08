@@ -24,10 +24,10 @@ void Sphere::InitMesh()
 			for (int index = 0; index < 4; ++index)
 			{
 				Vector2f UV = UVs[index];
-				float AdjustRadius = sin(DegreeToRadian(UV.Y * SegDegree)) * Radius;
-				float Z = cos(DegreeToRadian(UV.Y * SegDegree)) * Radius;
-				float Y = sin(DegreeToRadian(UV.X * SegDegree)) * AdjustRadius;
-				float X = cos(DegreeToRadian(UV.X * SegDegree)) * AdjustRadius;
+				float AdjustRadius = sin(DegToRad * (UV.Y * SegDegree)) * Radius;
+				float Z = cos(DegToRad * (UV.Y * SegDegree)) * Radius;
+				float Y = sin(DegToRad * (UV.X * SegDegree)) * AdjustRadius;
+				float X = cos(DegToRad * (UV.X * SegDegree)) * AdjustRadius;
 
 				MeshVertex Vertex;
 				Vertex.Position = Vector3f(X, Y, Z);

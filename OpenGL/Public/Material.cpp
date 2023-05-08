@@ -15,8 +15,7 @@ bool Material::Compile(ShaderProgram* Program)
 	Program->SetUniform1i("material.emission", 0);
 	Program->SetUniform1i("material.shininess", shininess);
 
-	auto it = Textures.begin();
-	for (int i = 0; i < Textures.size(); ++i, ++it)
+	for (auto it = Textures.begin(); it != Textures.end(); ++it)
 	{
 		auto& Texture = it->second;
 

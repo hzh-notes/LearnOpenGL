@@ -121,9 +121,9 @@ Matrix TQuat<float>::ToMatrix() const
 template<typename T>
 TQuat<T> TQuat<T>::FromEuler(TVector<T>& Euler)
 {
-	TQuat<T> QuatFromRoll = TQuat<T>(1.0, 0.0, 0.0, DegreeToRadian(Euler.X));
-	TQuat<T> QuatFromPitch = TQuat<T>(QuatFromRoll.UnrotateVector(TVector<T>(0.0, -1.0, 0.0)), DegreeToRadian(Euler.Y));
-	TQuat<T> QuatFromYaw = TQuat<T>((QuatFromRoll * QuatFromPitch).UnrotateVector(TVector<T>(0.0, 0.0, 1.0)), DegreeToRadian(Euler.Z));
+	TQuat<T> QuatFromRoll = TQuat<T>(1.0, 0.0, 0.0, DegToRad * Euler.X);
+	TQuat<T> QuatFromPitch = TQuat<T>(TVector<T>(0.0, -1.0, 0.0), DegToRad * Euler.Y);
+	TQuat<T> QuatFromYaw = TQuat<T>(TVector<T>(0.0, 0.0, 1.0), DegToRad * Euler.Z);
 
 	return QuatFromRoll * QuatFromPitch * QuatFromYaw;
 }

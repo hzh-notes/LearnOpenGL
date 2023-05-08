@@ -10,7 +10,7 @@ MeshRenderer::MeshRenderer()
 
 }
 
-void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos)
+void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos, const unsigned int& DepthTexture, const Matrix& LightSpace)
 {
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	Program->Use();
@@ -27,10 +27,15 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 	Program->SetUniform1f("spotLight.innerCutOff", cos(3.1415926f / 24.f));
 	Program->SetUniform1f("spotLight.outerCutOff", cos(3.1415926f / 12.f));*/
 	
-	Program->SetUniform3f("dirLight.direction", Vector3f(0.f, -0.866f, -0.5f));
-	Program->SetUniform3f("dirLight.ambient", Vector3f(0.5f));
-	Program->SetUniform3f("dirLight.diffuse", Vector3f(0.8f));
+	Program->SetUniform3f("dirLight.direction", Vector3f(0.866f, 0.f, -0.5f));
+	Program->SetUniform3f("dirLight.ambient", Vector3f(0.3f));
+	Program->SetUniform3f("dirLight.diffuse", Vector3f(1.2f));
 	Program->SetUniform3f("dirLight.specular", Vector3f(1.f));
+	Program->SetUniform4x4("lightSpaceMat", LightSpace);
+
+	glActiveTexture(GL_TEXTURE0 + 3);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	Program->SetUniformTexture2D("depthTexture", 3);
 
 	for (Mesh* mesh : Meshes)
 	{

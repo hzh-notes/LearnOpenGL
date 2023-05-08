@@ -6,7 +6,8 @@
 #include <math.h>
 
 #define PI 3.1415926535
-#define DegreeToRadian(X) X * PI / 180.
+#define DegToRad PI / 180.
+#define RadToDeg 180. / PI
 
 template<typename T>
 T ClampAxis(T Angle)

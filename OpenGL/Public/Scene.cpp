@@ -18,7 +18,7 @@ Scene::Scene()
 	Sky = new SkyBox();
 	Viewport = new Screen();
 	MeshRender = new MeshRenderer();
-	DirLight = new Light(Transform(Vector3f(-200, 0, 100), Vector3f(30, 0, 0)));
+	DirLight = new Light(Transform(Vector3f(-300, 0, 300), Vector3f(0, 30, 0)));
 }
 
 Scene::~Scene()
@@ -29,9 +29,9 @@ Scene::~Scene()
 void Scene::Render()
 {
 	//更新鼠标位置
-	glfwSetCursorPosCallback(Window, [](GLFWwindow* window, double xpos, double ypos) 
+	glfwSetCursorPosCallback(Window, [](GLFWwindow* window, double xpos, double ypos)
 		{
-			glfwSetCursorPos(window, xpos, ypos); 
+			glfwSetCursorPos(window, xpos, ypos);
 		}
 	);
 	//鼠标输入
@@ -64,13 +64,14 @@ void Scene::Render()
 		glEnable(GL_DEPTH_TEST);
 		//glDepthMask(GL_TRUE);
 		glFrontFace(GL_CCW);
-		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position);
+		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position, DepthTexture, DirLight->GetLightSpaceMatrix());
 
 		glDisable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
 		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		Viewport->Render();
 	}
@@ -95,7 +96,7 @@ void Scene::CheckMouseState()
 			MouseState = EMouseState::Released_Left;
 		}
 	}
-	
+
 	int RightMouse = glfwGetMouseButton(Window, GLFW_MOUSE_BUTTON_RIGHT);
 	if (RightMouse)
 	{
@@ -130,8 +131,8 @@ void Scene::HandleMouseMove()
 		float Yaw = (CurMousePos.X - LastMousePos.X) / 20.f;
 
 		Vector3f CurAxisY = MainCamera->transform.TransformVector4f(Vector3f(0.f, -1.f, 0.f));
-		Quat4f QuatPitch = Quat4f(CurAxisY, DegreeToRadian(Pitch));
-		Quat4f QuatYaw = Quat4f(Vector3f(0.f, 0.f, -1.f), DegreeToRadian(Yaw));
+		Quat4f QuatPitch = Quat4f(CurAxisY, DegToRad * Pitch);
+		Quat4f QuatYaw = Quat4f(Vector3f(0.f, 0.f, -1.f), DegToRad * Yaw);
 
 		MainCamera->transform.Rotation = PreQuat * QuatPitch * QuatYaw;
 	}
@@ -140,7 +141,7 @@ void Scene::HandleMouseMove()
 void Scene::HandleMouseRightPressed()
 {
 	Vector2f MousePos = GetMousePos();
-	
+
 }
 
 void Scene::CheckKeyboardState()
