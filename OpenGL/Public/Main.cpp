@@ -63,7 +63,6 @@ int main()
 		scene->Render();
 #pragma endregion
 
-		
 	}
 	delete scene, cube1, cube2, floor, grass, Mat0, floorMat, lightMat, grassMat;
 	scene = nullptr;
