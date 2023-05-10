@@ -12,7 +12,7 @@ public:
 
 	MeshRenderer();
 
-	void Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos, const unsigned int& DepthTexture, const Matrix& LightSpace);
+	void Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos, const Matrix& LightSpace);
 
 private:
 

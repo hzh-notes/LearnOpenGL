@@ -9,9 +9,9 @@
 
 enum class ETextureCategory
 {
-	Diffuse = 0,
-	Specular = 1,
-	Emission = 2,
+	Diffuse = 1,
+	Specular = 2,
+	Emission = 3,
 };
 
 struct TextureParam

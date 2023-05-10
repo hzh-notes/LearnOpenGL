@@ -18,7 +18,7 @@ Scene::Scene()
 	Sky = new SkyBox();
 	Viewport = new Screen();
 	MeshRender = new MeshRenderer();
-	DirLight = new Light(Transform(Vector3f(-300, 0, 300), Vector3f(0, 30, 0)));
+	DirLight = new Light(Transform(Vector3f(-100, 0, 100), Vector3f(0, 30, 0)));
 }
 
 Scene::~Scene()
@@ -44,11 +44,15 @@ void Scene::Render()
 		Matrix model, view, projection;
 		GetCameraInfo(view, projection);
 
+		//‰÷»æ…Ó∂»Õº
 		glEnable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, DepthFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
+		glCullFace(GL_FRONT);
 		DirLight->Render(Meshes);
+		glCullFace(GL_BACK);
 
+		//¿Î∆¡‰÷»æ
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,18 +61,21 @@ void Scene::Render()
 		/*glDepthMask(GL_FALSE);
 		glDepthFunc(GL_LEQUAL);*/
 
+		//ÃÏø’«Ú
 		glDisable(GL_DEPTH_TEST);
 		glFrontFace(GL_CW);
 		Sky->Render(view, projection);
 
+		//‰÷»æMesh
 		glEnable(GL_DEPTH_TEST);
-		//glDepthMask(GL_TRUE);
 		glFrontFace(GL_CCW);
-		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position, DepthTexture, DirLight->GetLightSpaceMatrix());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, DepthTexture);
+		MeshRender->Render(Meshes, view, projection, MainCamera->transform.Position, DirLight->GetLightSpaceMatrix());
 
+		//‰÷»æ÷¡ ”ø⁄
 		glDisable(GL_DEPTH_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); // ∑µªÿƒ¨»œ
-		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ColorTexture, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
@@ -296,8 +303,12 @@ void Scene::GenDepthFrameBuffer(Vector2f ViewportSize)
 	glGenTextures(1, &DepthTexture);
 	glBindTexture(GL_TEXTURE_2D, DepthTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ViewportSize.X, ViewportSize.Y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DepthTexture, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
