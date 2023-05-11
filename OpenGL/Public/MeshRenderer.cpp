@@ -28,9 +28,10 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 	Program->SetUniform1f("spotLight.outerCutOff", cos(3.1415926f / 12.f));*/
 	
 	Program->SetUniform3f("dirLight.direction", Vector3f(0.866f, 0.f, -0.5f));
+	Program->SetUniform3f("dirLight.color", Vector3f(1.f));
 	Program->SetUniform3f("dirLight.ambient", Vector3f(0.2f));
 	Program->SetUniform3f("dirLight.diffuse", Vector3f(0.8f));
-	Program->SetUniform3f("dirLight.specular", Vector3f(1.f));
+	Program->SetUniform3f("dirLight.specular", Vector3f(100.f));
 	Program->SetUniform4x4("lightSpaceMat", LightSpace);
 	Program->SetUniformTexture2D("depthTexture", 0);
 

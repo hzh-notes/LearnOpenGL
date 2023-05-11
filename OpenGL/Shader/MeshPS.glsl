@@ -5,6 +5,7 @@ struct DirectionLight
 {
 	vec3 direction;
 	
+	vec3 color;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
@@ -78,7 +79,7 @@ vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 diffuseC
     vec3 ambient  = light.ambient  * diffuseColor;
     vec3 diffuse  = light.diffuse  * diff * diffuseColor;
     vec3 specular = light.specular * spec * specularColor;
-    return (ambient + (1.f - shadow) * (diffuse + specular));
+    return (ambient + (1.f - shadow) * (diffuse + specular)) * light.color;
 }
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 diffuseColor, vec3 specularColor)
@@ -136,8 +137,8 @@ void main()
 	vec4 finalColor;
 	if(material.emission == 1)
 	{
-		vec3 emissionColor = texture(material.emissionSampler, uv).rgb;
-		finalColor = vec4(1.0f);//emissionColor;
+		vec4 emissionColor = texture(material.emissionSampler, uv);
+		finalColor = emissionColor;
 	}
 	else
 	{
@@ -175,6 +176,9 @@ void main()
 		finalColor.a = baseColor.a;
 	}
 	
-	FragColor = finalColor;
+	vec3 mapped = finalColor.rgb / (finalColor.rgb + 1.);
+	mapped = pow(mapped, vec3(1. / 2.2));
+	
+	FragColor = vec4(mapped, finalColor.a);
 
 }
