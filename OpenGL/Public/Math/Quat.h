@@ -28,7 +28,7 @@ public:
 
 	TVector<T> ToRotation() const;
 
-	Matrix ToMatrix() const;
+	TMatrix<T> ToMatrix() const;
 
 	static TQuat<T> FromEuler(TVector<T>& Euler);
 

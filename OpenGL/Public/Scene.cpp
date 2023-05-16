@@ -41,7 +41,7 @@ void Scene::Render()
 
 	if (bRenderDataDirty)
 	{
-		Matrix model, view, projection;
+		Matrixf model, view, projection;
 		GetCameraInfo(view, projection);
 
 		//äÖÈ¾Éî¶ÈÍ¼
@@ -315,7 +315,7 @@ void Scene::GenDepthFrameBuffer(Vector2f ViewportSize)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Scene::GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const
+void Scene::GetCameraInfo(Matrixf& OutView, Matrixf& OutProjection) const
 {
 	OutView = MainCamera->GetViewMatrix();
 	OutProjection = MainCamera->GetPerspectiveMatrix();

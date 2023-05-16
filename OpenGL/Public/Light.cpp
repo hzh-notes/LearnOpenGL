@@ -8,12 +8,12 @@ Light::Light()
 	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\LightVS.glsl", "\\Shader\\LightPS.glsl");
 }
 
-Matrix Light::GetLightSpaceMatrix() const
+Matrixf Light::GetLightSpaceMatrix() const
 {
-	Matrix View = Matrix::LookAt(LightTransform.Position, LightTransform.GetForwardVector(), LightTransform.GetUpVector());//Vector3f(0, -0.866, -0.5), Vector3f(0, -0.5, 0.866));
-	Matrix Projection = 
+	Matrixf View = Matrixf::LookAt(LightTransform.Position, LightTransform.GetForwardVector(), LightTransform.GetUpVector());//Vector3f(0, -0.866, -0.5), Vector3f(0, -0.5, 0.866));
+	Matrixf Projection = 
 		//Matrix::Perspective(45.f, 1080.f, 720.f, 1.f, 10000.f);
-		Matrix::OrthoMatrix(1080.f, 720.f, 1.f, 100000.f);
+		Matrixf::OrthoMatrix(1080.f, 720.f, 1.f, 100000.f);
 
 	return View * Projection;
 }
@@ -34,7 +34,7 @@ void Light::Render(std::vector<Mesh*> Meshes)
 		VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
 		IndexBuffer* iBuffer = new IndexBuffer(Indices.data(), sizeof(int) * Indices.size());
 
-		Matrix model = mesh->MeshTransform.GetMatrixWithScale();
+		Matrixf model = mesh->MeshTransform.GetMatrixWithScale();
 		Program->SetUniform4x4("model", model);
 		Program->SetUniform4x4("lightSpaceMatrix", GetLightSpaceMatrix());
 

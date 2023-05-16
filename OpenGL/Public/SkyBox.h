@@ -16,7 +16,7 @@ public:
 	SkyBox();
 	~SkyBox();
 
-	void Render(Matrix View, Matrix Projection);
+	void Render(Matrixf View, Matrixf Projection);
 
 private:
 	int ShaderId = -1;

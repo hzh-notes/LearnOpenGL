@@ -14,11 +14,11 @@ public:
 
 	Camera(Transform InTransform) :transform(InTransform) {}
 
-	Matrix GetPerspectiveMatrix();
+	Matrixf GetPerspectiveMatrix();
 
-	Matrix GetOrthoMatrix();
+	Matrixf GetOrthoMatrix();
 
-	Matrix GetViewMatrix();
+	Matrixf GetViewMatrix();
 
 public:
 

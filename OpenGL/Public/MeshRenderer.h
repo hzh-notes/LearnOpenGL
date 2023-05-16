@@ -12,11 +12,11 @@ public:
 
 	MeshRenderer();
 
-	void Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos, const Matrix& LightSpace);
+	void Render(std::vector<Mesh*> Meshes, const Matrixf& View, const Matrixf& Projection, const Vector3f& ViewPos, const Matrixf& LightSpace);
 
 private:
 
-	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel);
+	void GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrixf& OutModel);
 	
 private:
 

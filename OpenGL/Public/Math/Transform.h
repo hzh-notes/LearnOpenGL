@@ -31,11 +31,11 @@ public:
 
 public:
 
-	Matrix GetMatrixWithScale() const;
+	Matrixf GetMatrixWithScale() const;
 
-	Matrix GetMatrixWithoutScale() const;
+	Matrixf GetMatrixWithoutScale() const;
 
-	Matrix GetRotationMatrix() const;
+	Matrixf GetRotationMatrix() const;
 
 	Vector3f TransformPosition(Vector3f V) const;
 

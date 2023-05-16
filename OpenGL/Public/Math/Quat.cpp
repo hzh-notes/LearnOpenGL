@@ -102,18 +102,19 @@ TVector<T> TQuat<T>::ToRotation() const
 	return RotatorFromQuat;
 }
 
-Matrix TQuat<float>::ToMatrix() const
+template<typename T>
+TMatrix<T> TQuat<T>::ToMatrix() const
 {
-	Matrix R;
-	const float x2 = X + X;    const float y2 = Y + Y;    const float z2 = Z + Z;
-	const float xx = X * x2;   const float xy = X * y2;   const float xz = X * z2;
-	const float yy = Y * y2;   const float yz = Y * z2;   const float zz = Z * z2;
-	const float wx = W * x2;   const float wy = W * y2;   const float wz = W * z2;
+	TMatrix<T> R;
+	const T x2 = X + X;    const T y2 = Y + Y;    const T z2 = Z + Z;
+	const T xx = X * x2;   const T xy = X * y2;   const T xz = X * z2;
+	const T yy = Y * y2;   const T yz = Y * z2;   const T zz = Z * z2;
+	const T wx = W * x2;   const T wy = W * y2;   const T wz = W * z2;
 
-	R.M[0] = 1.0f - (yy + zz);	R.M[1] = xy - wz;				R.M[2] = xz + wy;			R.M[3] = 0.0f;
-	R.M[4] = xy + wz;			R.M[5] = 1.0f - (xx + zz);		R.M[6] = yz - wx;			R.M[7] = 0.0f;
-	R.M[8] = xz - wy;			R.M[9] = yz + wx;				R.M[10] = 1.0f - (xx + yy);	R.M[11] = 0.0f;
-	R.M[12] = 0.0f;				R.M[13] = 0.0f;					R.M[14] = 0.0f;				R.M[15] = 1.0f;
+	R.M[0]  = T(1.0) - (yy + zz);	R.M[1]  = xy - wz;				R.M[2]  = xz + wy;				R.M[3]  = T(0.0);
+	R.M[4]  = xy + wz;				R.M[5]  = T(1.0) - (xx + zz);	R.M[6]  = yz - wx;				R.M[7]  = T(0.0);
+	R.M[8]  = xz - wy;				R.M[9]  = yz + wx;				R.M[10] = T(1.0) - (xx + yy);	R.M[11] = T(0.0);
+	R.M[12] = T(0.0);				R.M[13] = T(0.0);				R.M[14] = T(0.0);				R.M[15] = T(1.0);
 
 	return R;
 }

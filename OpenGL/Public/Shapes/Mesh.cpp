@@ -11,7 +11,7 @@ void Mesh::GetElementInfo(std::vector<MeshVertex>& OutVertices, std::vector<int>
 
 	for (auto Vertex : Vertices)
 	{
-		Vertex.Normal = MeshTransform.GetRotationMatrix().TransformVector4f(Vertex.Normal);
+		Vertex.Normal = MeshTransform.GetRotationMatrix().TransformVector4(Vertex.Normal);
 		OutVertices.push_back(Vertex);
 	}
 

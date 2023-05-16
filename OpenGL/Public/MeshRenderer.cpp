@@ -10,7 +10,7 @@ MeshRenderer::MeshRenderer()
 
 }
 
-void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const Matrix& Projection, const Vector3f& ViewPos, const Matrix& LightSpace)
+void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrixf& View, const Matrixf& Projection, const Vector3f& ViewPos, const Matrixf& LightSpace)
 {
 	ShaderProgram* Program = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	Program->Use();
@@ -40,7 +40,7 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 		std::vector<MeshVertex> Vertices;
 		std::vector<int> Indices;
 
-		Matrix model;
+		Matrixf model;
 		GatherMeshInfo(mesh, Vertices, Indices, model);
 
 		VertexBuffer* vBuffer = new VertexBuffer(Vertices.data(), sizeof(MeshVertex) * Vertices.size());
@@ -70,7 +70,7 @@ void MeshRenderer::Render(std::vector<Mesh*> Meshes, const Matrix& View, const M
 
 }
 
-void MeshRenderer::GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrix& OutModel)
+void MeshRenderer::GatherMeshInfo(Mesh* InMesh, std::vector<MeshVertex>& OutVertices, std::vector<int>& OutIndices, Matrixf& OutModel)
 {
 	OutModel = InMesh->MeshTransform.GetMatrixWithScale();
 	InMesh->GetElementInfo(OutVertices, OutIndices);

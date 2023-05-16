@@ -58,7 +58,7 @@ public:
 
 	void SetUniform4f(const std::string& Name, Vector4f Value);
 
-	void SetUniform4x4(const std::string& Name, Matrix Value);
+	void SetUniform4x4(const std::string& Name, Matrixf Value);
 
 	void SetUniformTexture2D(const std::string& Name, int Index);
 

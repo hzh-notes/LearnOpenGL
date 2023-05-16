@@ -18,12 +18,12 @@ SkyBox::~SkyBox()
 	SkyMesh = nullptr;
 }
 
-void SkyBox::Render(Matrix View, Matrix Projection)
+void SkyBox::Render(Matrixf View, Matrixf Projection)
 {
 	ShaderProgram* SkyProgram = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	SkyProgram->Use();
 
-	Matrix ViewWithoutTranlate = View;
+	Matrixf ViewWithoutTranlate = View;
 	ViewWithoutTranlate.M[12] = 0;
 	ViewWithoutTranlate.M[13] = 0;
 	ViewWithoutTranlate.M[14] = 0;

@@ -17,7 +17,7 @@ public:
 		LightTransform = InTransform;
 	};
 
-	Matrix GetLightSpaceMatrix() const;
+	Matrixf GetLightSpaceMatrix() const;
 
 	void Render(std::vector<Mesh*> Meshes);
 

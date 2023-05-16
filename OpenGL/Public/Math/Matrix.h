@@ -1,63 +1,67 @@
 #pragma once
 
-#ifndef __MATRIX
-#define __MATRIX
+#ifndef __TMatrix
+#define __TMatrix
 
 #include <vector>
 #include "Vector.h"
 
-struct Matrix
+template <typename T>
+struct TMatrix
 {
 public:
 
-	Matrix();
+	TMatrix();
 
-	Matrix(std::vector<float> Values);
+	TMatrix(std::vector<T> Values);
 public:
 
-	Matrix operator*(const Matrix& Other) const;
+	TMatrix<T> operator*(const TMatrix<T>& Other) const;
 
-	float Determinant() const;
+	T Determinant() const;
 
-	Matrix Inverse() const;
+	TMatrix<T> Inverse() const;
 
-	Vector4f Row(int RowNum) const;
+	TVector4<T> Row(int RowNum) const;
 
-	Vector4f Column(int ColumnNum) const;
+	TVector4<T> Column(int ColumnNum) const;
 
-	Vector3f TransformPosition(const Vector3f& V) const;
+	TVector<T> TransformPosition(const TVector<T>& V) const;
 
-	Vector4f TransformVector4f(const Vector4f& V) const;
+	TVector4<T> TransformVector4(const TVector4<T>& V) const;
 
-	Vector4f InverseTransformVector4f(const Vector4f& V) const;
+	TVector4<T> InverseTransformVector4(const TVector4<T>& V) const;
 	
-	static Matrix Indentity();
+	static TMatrix<T> Indentity();
 
-	static Matrix Translate(Vector3f Tranlation);
+	static TMatrix<T> Translate(TVector<T> Tranlation);
 
-	static Matrix RotateX(float Angle);
+	static TMatrix<T> RotateX(T Angle);
 
-	static Matrix RotateY(float Angle);
+	static TMatrix<T> RotateY(T Angle);
 
-	static Matrix RotateZ(float Angle);
+	static TMatrix<T> RotateZ(T Angle);
 
-	static Matrix Rotate(Vector3f Rotation);
+	static TMatrix<T> Rotate(TVector<T> Rotation);
 
-	static Matrix Scale(Vector3f Scale3D);
+	static TMatrix<T> Scale(TVector<T> Scale3D);
 
-	static Matrix LookAt(Vector3f Eye, Vector3f Target, Vector3f Up);
+	static TMatrix<T> LookAt(TVector<T> Eye, TVector<T> Target, TVector<T> Up);
 
-	static Matrix OrthoMatrix(float Width, float Height, float MinZ, float MaxZ);
+	static TMatrix<T> OrthoMatrix(T Width, T Height, T MinZ, T MaxZ);
 
-	static Matrix ReversedZOrthoMatrix(float Width, float Height, float MinZ, float MaxZ);
+	static TMatrix<T> ReversedZOrthoMatrix(T Width, T Height, T MinZ, T MaxZ);
 
-	static Matrix Perspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ);
+	static TMatrix<T> Perspective(T HalfFOV, T Width, T Height, T MinZ, T MaxZ);
 
-	static Matrix ReversedZPerspective(float HalfFOV, float Width, float Height, float MinZ, float MaxZ);
+	static TMatrix<T> ReversedZPerspective(T HalfFOV, T Width, T Height, T MinZ, T MaxZ);
 
 public:
-	float M[16];
+	T M[16];
 };
+
+typedef TMatrix<float> Matrixf;
+typedef TMatrix<double> Matrixd;
 
 #endif
 

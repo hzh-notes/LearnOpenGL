@@ -54,7 +54,7 @@ private:
 	
 	void GenDepthFrameBuffer(Vector2f ViewportSize);
 
-	void GetCameraInfo(Matrix& OutView, Matrix& OutProjection) const;
+	void GetCameraInfo(Matrixf& OutView, Matrixf& OutProjection) const;
 private:
 
 	Camera* MainCamera = nullptr;
