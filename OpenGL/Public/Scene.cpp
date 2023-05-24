@@ -62,9 +62,9 @@ void Scene::Render()
 		glDepthFunc(GL_LEQUAL);*/
 
 		//Ìì¿ÕÇò
-		glDisable(GL_DEPTH_TEST);
+		/*glDisable(GL_DEPTH_TEST);
 		glFrontFace(GL_CW);
-		Sky->Render(view, projection);
+		Sky->Render(view, projection);*/
 
 		//äÖÈ¾Mesh
 		glEnable(GL_DEPTH_TEST);

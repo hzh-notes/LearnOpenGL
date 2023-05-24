@@ -7,11 +7,12 @@
 #include <string>
 #include <map>
 
-enum class ETextureCategory
+enum class ETextureCategory : unsigned short
 {
-	Diffuse = 1,
-	Specular = 2,
-	Emission = 3,
+	Depth = 0,
+	Diffuse = 0xD,
+	Specular = 0xE,
+	Emission = 0xF,
 };
 
 struct TextureParam

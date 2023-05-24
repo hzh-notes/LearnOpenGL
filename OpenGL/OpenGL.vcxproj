@@ -175,7 +175,6 @@
     <ClCompile Include="Public\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FunctionLibrary.h" />
     <ClInclude Include="Public\Camera.h" />
     <ClInclude Include="Public\FunctionLibrary.h" />
     <ClInclude Include="Public\IndexBuffer.h" />

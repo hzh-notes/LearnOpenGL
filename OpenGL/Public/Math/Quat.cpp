@@ -75,7 +75,7 @@ TVector<T> TQuat<T>::ToRotation() const
 	const T YawX = ((T)1.0 - (T)2.0 * (Y * Y + Z * Z));
 
 	const T SINGULARITY_THRESHOLD = (T)0.4999995;
-	const T RAD_TO_DEG = (T)(180.0 / 3.1415926);
+	const T RAD_TO_DEG = RadToDeg;
 	T Roll, Pitch, Yaw;
 
 	if (SingularityTest < -SINGULARITY_THRESHOLD)

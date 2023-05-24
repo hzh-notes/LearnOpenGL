@@ -170,9 +170,6 @@
     <ClInclude Include="Public\Shapes\Sphere.h">
       <Filter>头文件\Public\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="FunctionLibrary.h">
-      <Filter>头文件\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Math\Macro.h">
       <Filter>头文件\Public\Math</Filter>
     </ClInclude>
