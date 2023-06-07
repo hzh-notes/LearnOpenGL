@@ -1,6 +1,6 @@
 #pragma once
 #include "Math/Transform.h"
-#include "VertexBuffer.h"
+#include "RenderCore/VertexBuffer.h"
 #include "Material.h"
 #include <vector>
 

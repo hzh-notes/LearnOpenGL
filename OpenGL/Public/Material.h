@@ -10,9 +10,11 @@
 enum class ETextureCategory : unsigned short
 {
 	Depth = 0,
-	Diffuse = 0xD,
-	Specular = 0xE,
-	Emission = 0xF,
+	Diffuse = 0x01,
+	Specular = 0x02,
+	Emission = 0x03,
+
+	CubeMap = 0x0A,
 };
 
 struct TextureParam
@@ -36,6 +38,8 @@ public:
 
 	void SetTextureParam(std::string Path, ETextureCategory Category);
 
+	void LoadCubeMap(std::vector<std::string> Paths);
+
 	int GetTextureIdByCategory(ETextureCategory Category);
 
 private:
@@ -44,6 +48,8 @@ private:
 
 public:
 	int shininess = 32;
+
+	bool bSkyBox = false;
 private:
 
 	std::map<ETextureCategory, TextureParam> Textures;

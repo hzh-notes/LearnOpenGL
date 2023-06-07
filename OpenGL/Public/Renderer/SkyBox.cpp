@@ -3,26 +3,36 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "Shapes/Cube.h"
+#include "Material.h"
 
 SkyBox::SkyBox()
 {
 	ShaderId = ShaderProgramMap::GetInstance()->AddShaderProgram("\\Shader\\SkyVS.glsl", "\\Shader\\SkyPS.glsl");
-	ShaderProgramMap::GetInstance()->GetByKey(ShaderId)->LoadSkyCubeMap();
-
+	
 	SkyMesh = new Cube(Transform());
+	Mat = new Material();
+	Mat->LoadCubeMap({ 
+		"right.jpg",
+		"left.jpg",
+		"top.jpg",
+		"bottom.jpg",
+		"front.jpg",
+		"back.jpg" });
+	Mat->bSkyBox = true;
 }
 
 SkyBox::~SkyBox()
 {
-	delete SkyMesh;
+	delete SkyMesh, Mat;
 	SkyMesh = nullptr;
+	Mat = nullptr;
 }
 
 void SkyBox::Render(Matrixf View, Matrixf Projection)
 {
 	ShaderProgram* SkyProgram = ShaderProgramMap::GetInstance()->GetByKey(ShaderId);
 	SkyProgram->Use();
-
+	Mat->Compile(SkyProgram);
 	Matrixf ViewWithoutTranlate = View;
 	ViewWithoutTranlate.M[12] = 0;
 	ViewWithoutTranlate.M[13] = 0;

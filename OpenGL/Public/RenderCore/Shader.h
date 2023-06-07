@@ -46,8 +46,6 @@ public:
 
 	void Use();
 
-	void LoadSkyCubeMap();
-
 	void SetUniform1i(const std::string& Name, int Value);
 
 	void SetUniform1f(const std::string& Name, float Value);

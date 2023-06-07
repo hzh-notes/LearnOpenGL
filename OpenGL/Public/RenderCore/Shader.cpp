@@ -1,5 +1,4 @@
 #include "Shader.h"
-#include "stb_image.h"
 #include "FunctionLibrary.h"
 #include <iostream>
 #include <fstream>
@@ -84,53 +83,53 @@ void ShaderProgram::Use()
 	glUseProgram(ShaderProgramId);
 }
 
-void ShaderProgram::LoadSkyCubeMap()
-{
-	std::string Faces[6] = {
-		"right.jpg",
-		"left.jpg",
-		"top.jpg",
-		"bottom.jpg",
-		"front.jpg",
-		"back.jpg"
-	};
-
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-	std::string path = FunctionLibrary::GetSolutionDir();
-
-	int Width, Height, NumChannels;
-	unsigned char* Data;
-	for (unsigned int i = 0; i < 6; i++)
-	{
-		std::string filePath = path + "\\Texture\\skybox\\" + Faces[i];
-		Data = stbi_load(filePath.c_str(), &Width, &Height, &NumChannels, 0);
-		if (Data)
-		{
-			GLint TextureFormat = GL_RGB;
-			if (NumChannels == 4)
-			{
-				TextureFormat = GL_RGBA;
-			}
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormat, Width, Height, 0, TextureFormat, GL_UNSIGNED_BYTE, Data);
-		}
-		else
-		{
-			std::cout << "Failed to load texture" << std::endl;
-		}
-		stbi_image_free(Data);
-	}
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	SetUniform1i("skybox", 0);
-}
+//void ShaderProgram::LoadSkyCubeMap()
+//{
+//	std::string Faces[6] = {
+//		"right.jpg",
+//		"left.jpg",
+//		"top.jpg",
+//		"bottom.jpg",
+//		"front.jpg",
+//		"back.jpg"
+//	};
+//
+//	unsigned int textureID;
+//	glGenTextures(1, &textureID);
+//	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+//
+//	std::string path = FunctionLibrary::GetSolutionDir();
+//
+//	int Width, Height, NumChannels;
+//	unsigned char* Data;
+//	for (unsigned int i = 0; i < 6; i++)
+//	{
+//		std::string filePath = path + "\\Texture\\skybox\\" + Faces[i];
+//		Data = stbi_load(filePath.c_str(), &Width, &Height, &NumChannels, 0);
+//		if (Data)
+//		{
+//			GLint TextureFormat = GL_RGB;
+//			if (NumChannels == 4)
+//			{
+//				TextureFormat = GL_RGBA;
+//			}
+//			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormat, Width, Height, 0, TextureFormat, GL_UNSIGNED_BYTE, Data);
+//		}
+//		else
+//		{
+//			std::cout << "Failed to load texture" << std::endl;
+//		}
+//		stbi_image_free(Data);
+//	}
+//
+//	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+//
+//	SetUniform1i("skybox", 0);
+//}
 
 void ShaderProgram::SetUniform1i(const std::string& Name, int Value)
 {

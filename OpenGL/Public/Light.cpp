@@ -1,7 +1,7 @@
 #include "Light.h"
-#include "Shader.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
+#include "RenderCore/Shader.h"
+#include "RenderCore/VertexBuffer.h"
+#include "RenderCore/IndexBuffer.h"
 
 Light::Light()
 {
