@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
 #extension GL_ARB_shading_language_include : require
 
 struct DirectionLight

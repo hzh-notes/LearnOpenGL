@@ -54,6 +54,8 @@ private:
 	
 	void GenDepthFrameBuffer(Vector2f ViewportSize);
 
+	void GenDepthCubemap(Vector2f ViewportSize);
+
 	void GetCameraInfo(Matrixf& OutView, Matrixf& OutProjection) const;
 private:
 
@@ -73,7 +75,7 @@ private:
 	Light* DirLight = nullptr;
 
 	unsigned int FBO, ColorTexture, RBO;
-	unsigned int DepthFBO, DepthTexture;
+	unsigned int DepthFBO, DepthTexture, DepthCubemap;
 };
 
 #endif

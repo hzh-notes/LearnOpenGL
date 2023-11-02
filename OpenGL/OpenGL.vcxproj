@@ -200,6 +200,16 @@
     <ClInclude Include="Public\Shapes\Sphere.h" />
     <ClInclude Include="Public\stb_image.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\LightPS.glsl" />
+    <None Include="Shader\LightVS.glsl" />
+    <None Include="Shader\MeshPS.glsl" />
+    <None Include="Shader\MeshVS.glsl" />
+    <None Include="Shader\SkyPS.glsl" />
+    <None Include="Shader\SkyVS.glsl" />
+    <None Include="Shader\ViewportPS.glsl" />
+    <None Include="Shader\ViewportVS.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

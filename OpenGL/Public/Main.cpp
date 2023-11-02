@@ -25,7 +25,7 @@ int main()
 	
 	Mesh* cube1 = new Cube(Transform(Vector3f(150, -100, 20), Vector3f(0, 0, 0), Vector3f(0.5)));
 	Mesh* cube2 = new Cube(Transform(Vector3f(150, 100, 0), Vector3f(0, 30, 30), Vector3f(0.5)));
-	Mesh* sphere = new Sphere(Transform(Vector3f(-200, 0, 200), Vector3f(0, 0, 0), Vector3f(0.1)));
+	Mesh* sphere = new Sphere(Transform(Vector3f(-200, 0, 200), Vector3f(0, 0, 0), Vector3f(1)));
 	Mesh* floor = new Plane(Transform(Vector3f(0, 0, -50), Vector3f(0, 0, 0), Vector3f(10)));
 	Mesh* grass = new Plane(Transform(Vector3f(75, 0, 0), Vector3f(0, -90, 30), Vector3f(1)));
 
@@ -44,7 +44,7 @@ int main()
 
 	cube1->SetMaterial(Mat0);
 	cube2->SetMaterial(Mat0);
-	sphere->SetMaterial(lightMat);
+	sphere->SetMaterial(Mat0);
 	floor->SetMaterial(floorMat);
 	grass->SetMaterial(grassMat);
 

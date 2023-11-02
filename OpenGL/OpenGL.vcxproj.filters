@@ -25,6 +25,9 @@
     <Filter Include="头文件\Shapes">
       <UniqueIdentifier>{9b63e2bb-7377-44ca-81d5-a5e87e0d6fa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GLSL">
+      <UniqueIdentifier>{9253a88e-e88a-4a01-ac76-5fddefba5ba7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Public\RenderCore\IndexBuffer.cpp">
@@ -173,5 +176,31 @@
     <ClInclude Include="Public\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\LightPS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\LightVS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\MeshPS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\MeshVS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\SkyPS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\SkyVS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\ViewportPS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="Shader\ViewportVS.glsl">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>
